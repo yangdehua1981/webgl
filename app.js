@@ -11,6 +11,7 @@ app.use(bodyParser.json());
 app.use(express.static('public'));
 app.use(express.static(path.join(__dirname, '/css')));
 app.use(express.static(path.join(__dirname, '/view')));
+app.use(express.static(path.join(__dirname, '/img')));
 
 // 注册路由
 app.post('/register', (req, res) => {

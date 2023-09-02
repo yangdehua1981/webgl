@@ -6,13 +6,17 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        background-image: url("/img/bk.jpg");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
       }
 
       .container {
         width: 400px;
         margin: 0 auto;
         padding: 20px;
-        background-color: #ffffff;
+        background-color: rgba(255, 255, 255, 0.5);
         border: 1px solid #ccc;
         border-radius: 20px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
