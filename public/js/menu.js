@@ -1,4 +1,3 @@
-
 export class MenuItem {
     constructor(idx, li, handler, container) {
         this.idx = idx;
@@ -94,12 +93,15 @@ export class Menu {
         if (this.direction == Menu.Dir.HORZ)
             li.style = "position:relative;display:inline-block;padding-left:2px;padding-right:2px;margin:0px;border-right: 1px solid";
         else if (this.direction == Menu.Dir.VERT)
-            li.style = "width:120px;position:relative;padding-left:2px;padding-right:2px;margin:0px;border-bottom: 1px solid";
+            li.style = "position:relative;display: block;padding-left:2px;padding-right:2px;margin:0px;border-bottom: 1px solid";
         this.ul.appendChild(li);
 
         let a = document.createElement("a");
         a.innerText = text;
-        a.style = "display: block;padding: 0px;background-color: #f0f0f0;text-decoration: none;color: #000;";
+        if (this.direction == Menu.Dir.HORZ)
+            a.style = "display: block;padding: 0px;background-color: #f0f0f0;text-decoration: none;color: #000;";
+        else if (this.direction == Menu.Dir.VERT)
+            a.style = "padding: 0px;background-color: #f0f0f0;text-decoration: none;color: #000;";
         a.href = href;
         li.appendChild(a);
 
