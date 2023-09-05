@@ -1,3 +1,4 @@
+
 export class MenuItem {
     constructor(idx, li, handler, container) {
         this.idx = idx;
@@ -5,8 +6,10 @@ export class MenuItem {
         this.ul = null;
         this.container = container;
         this.handler = handler;
-        if (li.firstElementChild.tagName.toLowerCase() === 'a')
+        if (li.firstElementChild.tagName.toLowerCase() === 'a') {
+            this.alink = li.firstElementChild;
             li.firstElementChild.addEventListener('click', (event) => { this.#onclick(event); });
+        }
     }
     #onclick(event) {
         if (this.container.curitem != this && this.container.curitem != null) {
@@ -43,7 +46,10 @@ export class MenuItem {
         if (this.ul == null) {
             this.ul = document.createElement("ul");
             this.ul.className = "submenu";
-            this.ul.style = "padding:0px;margin:0px;list-style-type:none;position: absolute;top: 100%;left:0px;display: none;";
+            if (this.container.direction == Menu.Dir.HORZ)
+                this.ul.style = "padding:0px;margin:0px;list-style-type:none;position: absolute;top: 100%;left:0;display: none;";
+            else if (this.container.direction == Menu.Dir.VERT)
+                this.ul.style = "padding:0px;margin:0px;list-style-type:none;position: absolute;top: 0;left:100%;display: none;";
             this.li.appendChild(this.ul);
         }
 
@@ -63,9 +69,14 @@ export class MenuItem {
 }
 //
 export class Menu {
-    constructor(barid) {
+    static Dir = {
+        HORZ: 'horizontal',
+        VERT: 'vertical'
+    }
+    constructor(barid, direction = Menu.Dir.HORZ) {
         this.menubar = document.getElementById(barid);
         this.curitem = null;
+        this.direction = direction;
     }
     create() {
         if (!this.menubar)
@@ -80,8 +91,10 @@ export class Menu {
         if (!this.ul)
             return false;
         let li = document.createElement("li");
-        li.style = "position:relative;display:inline-block;padding-left:2px;padding-right:2px;margin:0px;border-right: 1px solid";
-
+        if (this.direction == Menu.Dir.HORZ)
+            li.style = "position:relative;display:inline-block;padding-left:2px;padding-right:2px;margin:0px;border-right: 1px solid";
+        else if (this.direction == Menu.Dir.VERT)
+            li.style = "width:120px;position:relative;padding-left:2px;padding-right:2px;margin:0px;border-bottom: 1px solid";
         this.ul.appendChild(li);
 
         let a = document.createElement("a");
