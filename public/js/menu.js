@@ -9,6 +9,19 @@ export class MenuItem {
             this.alink = li.firstElementChild;
             li.firstElementChild.addEventListener('click', (event) => { this.#onclick(event); });
         }
+        this.li.addEventListener('mouseenter', (event) => { this.#onmouseenter(event); });
+        this.li.addEventListener('mouseleave', (event) => { this.#onmouseleave(event); });
+        this.li.style.backgroundColor = this.container.Settings.bkColor;
+        this.alink.style.color = this.container.Settings.Color;
+    }
+    #onmouseenter(event) {
+        this.li.style.backgroundColor = this.container.Settings.overbkColor;
+        this.alink.style.textDecoration = "underline";
+        this.alink.style.textDecorationColor = this.container.Settings.txtDecorationColor;
+    }
+    #onmouseleave(event) {
+        this.li.style.backgroundColor = this.container.Settings.bkColor;
+        this.alink.style.textDecoration = "none";
     }
     #onclick(event) {
         if (this.container.curitem != this && this.container.curitem != null) {
@@ -53,17 +66,17 @@ export class MenuItem {
         }
 
         let li = document.createElement("li");
-        li.style = "padding:0px;margin:0px;";
+        li.style = "padding-left:6px;padding-right:5pxmargin:0px;";
         li.addEventListener('click', (event) => { this.#onitemclick(event); });
         this.ul.appendChild(li);
 
         let a = document.createElement("a");
         a.innerText = text;
-        a.style = "padding:0px;background-color: #f0f0f0;text-decoration: none;color: #000;";
+        a.style = "padding:0px;text-decoration: none;";
         a.href = href;
         li.appendChild(a);
         this.handler = null;
-        return new MenuItem(this.ul.childElementCount - 1, li, handler, this);
+        return new MenuItem(this.ul.childElementCount - 1, li, handler, this.container);
     }
 }
 //
@@ -71,6 +84,13 @@ export class Menu {
     static Dir = {
         HORZ: 'horizontal',
         VERT: 'vertical'
+    }
+    Settings = {
+        Color: '#ffffff',
+        bkColor: '#31a6e7',
+        overbkColor: '#000909',
+        txtDecorationColor: '#0000ff',
+        fontsize: '14px'
     }
     constructor(barid, direction = Menu.Dir.HORZ) {
         this.menubar = document.getElementById(barid);
@@ -91,7 +111,7 @@ export class Menu {
             return false;
         let li = document.createElement("li");
         if (this.direction == Menu.Dir.HORZ)
-            li.style = "position:relative;display:inline-block;padding-left:2px;padding-right:2px;margin:0px;border-right: 1px solid";
+            li.style = "position:relative;display:inline-block;padding-left:6px;padding-right:5px;margin:0px;border-right: 1px solid";
         else if (this.direction == Menu.Dir.VERT)
             li.style = "position:relative;display: block;padding-left:2px;padding-right:2px;margin:0px;border-bottom: 1px solid";
         this.ul.appendChild(li);
@@ -99,9 +119,9 @@ export class Menu {
         let a = document.createElement("a");
         a.innerText = text;
         if (this.direction == Menu.Dir.HORZ)
-            a.style = "display: block;padding: 0px;background-color: #f0f0f0;text-decoration: none;color: #000;";
+            a.style = "display: block;padding: 0px;;text-decoration: none;";
         else if (this.direction == Menu.Dir.VERT)
-            a.style = "padding: 0px;background-color: #f0f0f0;text-decoration: none;color: #000;";
+            a.style = "padding: 0px;text-decoration: none;";
         a.href = href;
         li.appendChild(a);
 
