@@ -23,7 +23,7 @@ body {
     width: 100%;
     background-color: #3c3c3c;
     border-bottom: #8a8888 1px solid;
-    padding-bottom: -1px;
+    /* padding-bottom: -1px; */
     /* border-top: #8a8888 1px solid; */
   }
   nav {
@@ -90,7 +90,7 @@ body {
   }
   #left-panel {
     height: 100%;
-    width: 15%;
+    width: 20%;
     background-color: #3c3c3c;
     resize: horizontal;
     overflow: auto;
