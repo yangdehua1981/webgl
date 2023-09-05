@@ -11,21 +11,29 @@ canvas.addEventListener("resize", () => {
     alert("r");
 });
 
-const cameraPosition = [0, 0, 0]; // 相机位置 (x, y, z)
-const target = [0, 0, -1]; // 目标点 (x, y, z)
+// const cameraPosition = [0, 0, 0]; // 相机位置 (x, y, z)
+// const target = [0, 0, -1.0]; // 目标点 (x, y, z)
+// const up = [0, 1, 0]; // 上方向 (x, y, z)
+
+const cameraPosition = [0, 0, 300]; // 相机位置 (x, y, z)
+const target = [0, 0, -90.0]; // 目标点 (x, y, z)
 const up = [0, 1, 0]; // 上方向 (x, y, z)
 
 const viewMatrix = mat4.create(); // 创建一个4x4的单位矩阵
+mat4.identity(viewMatrix);
 mat4.lookAt(viewMatrix, cameraPosition, target, up);
 const projMatrix = mat4.create();
-mat4.ortho(projMatrix, 0, canvas.width, canvas.height, 0, -1.0, 1.0);
-// mat4.perspective(
-//   projMatrix,
-//   Math.PI / 4,
-//   canvas.width / canvas.height,
-//   0.1,
-//   100
-// );
+mat4.identity(projMatrix)
+//mat4.ortho(projMatrix, 0, canvas.width, canvas.height, 0, -1.0, 1.0);
+mat4.perspective(
+    projMatrix,
+    Math.PI / 4,
+    canvas.width / canvas.height,
+    0.1,
+    1000
+);
+board.viewMatrix = viewMatrix;
+board.projMatrix = projMatrix;
 // alert(canvas.width);
 // alert(canvas.clientWidth);
 const modelViewMatrix = mat4.create();
@@ -45,7 +53,7 @@ const vertexShaderSource = `
           uniform mat4 u_viewMatrix;
           uniform mat4 u_ModelViewMatrix;
           void main() {
-              gl_Position = u_ProjMaterix*vec4(a_position, 1.0);
+              gl_Position = vec4(a_position, 1.0);
           }
       `;
 
@@ -117,16 +125,18 @@ const colorUniformLocation = gl.getUniformLocation(program, "u_color");
 // 渲染函数
 function render() {
     gl.viewport(0, 0, canvas.width, canvas.height);
-    // gl.clearDepth(1.0); // Clear everything
-    // gl.enable(gl.DEPTH_TEST); // Enable depth testing
-    // gl.depthFunc(gl.LEQUAL); // Near things obscure far things
+    gl.clearDepth(1.0); // Clear everything
+    gl.enable(gl.DEPTH_TEST); // Enable depth testing
+    gl.depthFunc(gl.LEQUAL); // Near things obscure far things
     gl.clearColor(1, 1, 1, 1);
     gl.clear(gl.COLOR_BUFFER_BIT); // | gl.DEPTH_BUFFER_BIT);
 
     gl.useProgram(program);
 
     const positionBuffer = gl.createBuffer();
-    //var points = [0.0, 0.0, 0.0, 1.0, 1.0, 0.0];
+    var points = [0.0, 0.0, 0.0,
+        -196, 100.0, 0.0
+    ];
     gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
     gl.bufferData(
         gl.ARRAY_BUFFER,
