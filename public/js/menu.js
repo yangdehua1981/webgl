@@ -78,7 +78,7 @@ export class MenuItem {
 
         let a = document.createElement("a");
         a.innerText = text;
-        a.style = "padding:0px;text-decoration: none;";
+        a.style = "padding:0px;text-decoration: none;text-align: center;";
         a.href = href;
         li.appendChild(a);
         this.handler = null;
@@ -110,6 +110,7 @@ export class Menu {
         li.style.paddingRight = this.Settings.paddingH;
         li.style.paddingTop = this.Settings.paddingV;
         li.style.paddingBottom = this.Settings.paddingV;
+        li.style.width = this.Settings.itemWidth;
         if (this.direction == Menu.Dir.HORZ) {
             li.style.display = "inline-block";
             li.style.borderRight = "1px solid";
@@ -124,9 +125,9 @@ export class Menu {
         let a = document.createElement("a");
         a.innerText = text;
         if (this.direction == Menu.Dir.HORZ)
-            a.style = "display: block;padding: 0px;;text-decoration: none;";
+            a.style = "display: block;padding: 0px;;text-decoration: none;text-align: center;";
         else if (this.direction == Menu.Dir.VERT)
-            a.style = "padding: 0px;text-decoration: none;";
+            a.style = "padding: 0px;text-decoration: none;text-align: center;";
         a.href = href;
         return a;
     }
@@ -140,7 +141,7 @@ export class Menu {
             return false;
         this.ul = document.createElement("ul");
         this.ul.className = "menu";
-        this.ul.style = "list-style-type:none;padding:0px;margin:0px;";
+        this.ul.style = "list-style-type:none;padding:0px;margin:0px;text-align: center;";
         if (this.direction == Menu.Dir.HORZ) {
             this.ul.style.display = "flex";
             this.ul.style.alignItems = "center";
