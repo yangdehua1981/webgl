@@ -12,7 +12,10 @@ export class MenuItem {
         this.li.addEventListener('mouseenter', (event) => { this.#onmouseenter(event); });
         this.li.addEventListener('mouseleave', (event) => { this.#onmouseleave(event); });
         this.li.style.backgroundColor = this.container.Settings.bkColor;
+        this.li.style.borderColor = this.container.Settings.borderColor;
+
         this.alink.style.color = this.container.Settings.Color;
+        this.alink.style.fontSize = this.container.Settings.fontsize;
     }
     #onmouseenter(event) {
         this.li.style.backgroundColor = this.container.Settings.overbkColor;
@@ -59,14 +62,16 @@ export class MenuItem {
             this.ul = document.createElement("ul");
             this.ul.className = "submenu";
             if (this.container.direction == Menu.Dir.HORZ)
-                this.ul.style = "padding:0px;margin:0px;list-style-type:none;position: absolute;top: 100%;left:0;display: none;";
+                this.ul.style = "display:flex;align-items: center;padding:0px;margin:0px;list-style-type:none;position: absolute;top: 100%;left:0;display: none;border: 1px solid;border-radius: 3px;";
             else if (this.container.direction == Menu.Dir.VERT)
-                this.ul.style = "padding:0px;margin:0px;list-style-type:none;position: absolute;top: 0;left:100%;display: none;";
+                this.ul.style = "padding:0px;margin:0px;list-style-type:none;position: absolute;top: 0;left:100%;display: none;border: 1px solid;border-radius: 3px;";
+            this.ul.style.borderColor = this.container.Settings.borderColor;
             this.li.appendChild(this.ul);
         }
 
         let li = document.createElement("li");
-        li.style = "padding-left:6px;padding-right:5pxmargin:0px;";
+        li.style.borderColor = this.container.Settings.borderColor;
+        li.style = "padding:5px;margin:0px;border-bottom: 1px solid;";
         li.addEventListener('click', (event) => { this.#onitemclick(event); });
         this.ul.appendChild(li);
 
@@ -90,7 +95,8 @@ export class Menu {
         bkColor: '#31a6e7',
         overbkColor: '#000909',
         txtDecorationColor: '#0000ff',
-        fontsize: '14px'
+        fontsize: '14px',
+        borderColor: '#ccc'
     }
     constructor(barid, direction = Menu.Dir.HORZ) {
         this.menubar = document.getElementById(barid);
@@ -102,7 +108,10 @@ export class Menu {
             return false;
         this.ul = document.createElement("ul");
         this.ul.className = "menu";
-        this.ul.style = "list-style-type:none;padding:0px;margin:0px;";
+        if (this.direction == Menu.Dir.HORZ)
+            this.ul.style = "display:flex;align-items: center;list-style-type:none;padding:0px;margin:0px;";
+        else if (this.direction == Menu.Dir.VERT)
+            this.ul.style = "list-style-type:none;padding:0px;margin:0px;";
         this.menubar.appendChild(this.ul);
         return true;
     }
@@ -111,9 +120,9 @@ export class Menu {
             return false;
         let li = document.createElement("li");
         if (this.direction == Menu.Dir.HORZ)
-            li.style = "position:relative;display:inline-block;padding-left:6px;padding-right:5px;margin:0px;border-right: 1px solid";
+            li.style = "position:relative;display:inline-block;padding:5px;margin:0px;border-right: 1px solid";
         else if (this.direction == Menu.Dir.VERT)
-            li.style = "position:relative;display: block;padding-left:2px;padding-right:2px;margin:0px;border-bottom: 1px solid";
+            li.style = "position:relative;display: block;padding:5px;margin:0px;border-bottom: 1px solid";
         this.ul.appendChild(li);
 
         let a = document.createElement("a");
