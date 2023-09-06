@@ -26,7 +26,7 @@ body {
     /* padding-bottom: -1px; */
     /* border-top: #8a8888 1px solid; */
   }
-  nav {
+  /* nav {
     margin: 0px;
     padding: 0px;
     width: 100%;
@@ -45,7 +45,6 @@ body {
     padding: 0px;
   }
   #nav {
-    /* float: left; */
     height: 100%;
   }
   #nav li {
@@ -76,7 +75,7 @@ body {
     color: #fefefe;
     background-color: rgb(16, 16, 16);
     text-decoration-color: #eff215;
-  }
+  } */
   main {
     flex-grow: 1; 
     height: 92vh;

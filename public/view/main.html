@@ -9,13 +9,28 @@
   <body>
     <div id="container">
       <header>
-        <nav>
-          <ul id="nav">
+        <nav id="menbar">
+          <script type="module">
+            import { Menu, MenuItem } from "./js/menu.js";
+            const menu = new Menu("menbar");
+            menu.Settings.bkColor = "#3c3c3c";
+            menu.Settings.borderColor = "#8a8888";
+            menu.Settings.bkColorHover = "#444444";
+            if (menu.create()) {
+              const item = menu.addItem("文件", "#", null);
+              item.addSubItem("新建", "#", null);
+              item.addSubItem("保存", "#", null);
+              item.addSubItem("打开", "#", null);
+              menu.addItem("绘制", "#", null);
+              menu.addItem("设置", "#", null);
+            }
+          </script>
+          <!-- <ul id="nav">
             <li><a href="#">文件</a></li>
             <li><a href="#">绘制</a></li>
             <li><a href="#">设置</a></li>
             <li><a href="#">我</a></li>
-          </ul>
+          </ul> -->
         </nav>
       </header>
       <main>

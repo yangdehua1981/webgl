@@ -72,6 +72,7 @@ export class MenuItem {
         let li = document.createElement("li");
         li.style.borderColor = this.container.Settings.borderColor;
         li.style = "padding:5px;margin:0px;border-bottom: 1px solid;";
+        li.style.width = '80px';
         li.addEventListener('click', (event) => { this.#onitemclick(event); });
         this.ul.appendChild(li);
 
@@ -95,8 +96,39 @@ export class Menu {
         bkColor: '#31a6e7',
         overbkColor: '#000909',
         txtDecorationColor: '#0000ff',
+        borderColor: '#ccc',
         fontsize: '14px',
-        borderColor: '#ccc'
+        itemWidth: '60px',
+        subitemWidth: '100px',
+        paddingH: '3px',
+        paddingV: '3px'
+    }
+    #createli() {
+        let li = document.createElement("li");
+        li.style = "position:relative;margin:0px;";
+        li.style.paddingLeft = this.Settings.paddingH;
+        li.style.paddingRight = this.Settings.paddingH;
+        li.style.paddingTop = this.Settings.paddingV;
+        li.style.paddingBottom = this.Settings.paddingV;
+        if (this.direction == Menu.Dir.HORZ) {
+            li.style.display = "inline-block";
+            li.style.borderRight = "1px solid";
+        }
+        else if (this.direction == Menu.Dir.VERT) {
+            li.style.display = "block";
+            li.style.borderBottom = "1px solid";
+        }
+        return li;
+    }
+    #createa(text, href) {
+        let a = document.createElement("a");
+        a.innerText = text;
+        if (this.direction == Menu.Dir.HORZ)
+            a.style = "display: block;padding: 0px;;text-decoration: none;";
+        else if (this.direction == Menu.Dir.VERT)
+            a.style = "padding: 0px;text-decoration: none;";
+        a.href = href;
+        return a;
     }
     constructor(barid, direction = Menu.Dir.HORZ) {
         this.menubar = document.getElementById(barid);
@@ -108,32 +140,21 @@ export class Menu {
             return false;
         this.ul = document.createElement("ul");
         this.ul.className = "menu";
-        if (this.direction == Menu.Dir.HORZ)
-            this.ul.style = "display:flex;align-items: center;list-style-type:none;padding:0px;margin:0px;";
-        else if (this.direction == Menu.Dir.VERT)
-            this.ul.style = "list-style-type:none;padding:0px;margin:0px;";
+        this.ul.style = "list-style-type:none;padding:0px;margin:0px;";
+        if (this.direction == Menu.Dir.HORZ) {
+            this.ul.style.display = "flex";
+            this.ul.style.alignItems = "center";
+        }
         this.menubar.appendChild(this.ul);
         return true;
     }
     addItem(text, href, handler) {
         if (!this.ul)
             return false;
-        let li = document.createElement("li");
-        if (this.direction == Menu.Dir.HORZ)
-            li.style = "position:relative;display:inline-block;padding:5px;margin:0px;border-right: 1px solid";
-        else if (this.direction == Menu.Dir.VERT)
-            li.style = "position:relative;display: block;padding:5px;margin:0px;border-bottom: 1px solid";
-        this.ul.appendChild(li);
-
-        let a = document.createElement("a");
-        a.innerText = text;
-        if (this.direction == Menu.Dir.HORZ)
-            a.style = "display: block;padding: 0px;;text-decoration: none;";
-        else if (this.direction == Menu.Dir.VERT)
-            a.style = "padding: 0px;text-decoration: none;";
-        a.href = href;
+        let li = this.#createli();
+        let a = this.#createa(text, href);
         li.appendChild(a);
-
+        this.ul.appendChild(li);
         return new MenuItem(this.ul.childElementCount - 1, li, handler, this);
     }
 
