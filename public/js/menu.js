@@ -25,6 +25,9 @@ export class MenuItem {
     #onmouseleave(event) {
         this.li.style.backgroundColor = this.container.Settings.bkColor;
         this.alink.style.textDecoration = "none";
+        if (this.container.curitem != null && this.ul != null) {
+            this.container.curitem.ul.style.display = "none";
+        }
     }
     #onclick(event) {
         if (this.container.curitem != this && this.container.curitem != null) {
