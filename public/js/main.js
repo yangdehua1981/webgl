@@ -11,11 +11,12 @@ const menu = new Menu("menbar");
 menu.Settings.bkColor = "#3c3c3c";
 menu.Settings.borderColor = "#8a8888";
 menu.Settings.bkColorHover = "#444444";
+menu.Settings.subitemWidth = '120px';
 if (menu.create()) {
     const item = menu.addItem("文件", "#", 'F', null);
-    item.addSubItem("新建", "#", null);
+    item.addSubItem("新建", "#", 'N', onnew);
     item.addSubItem("保存", "#", 'S', onsave);
-    item.addSubItem("打开", "#", null);
+    item.addSubItem("打开", "#", 'O', onopen);
     menu.addItem("绘制", "#", 'D', ondraw);
     menu.addItem("设置", "#", null, null);
 }
@@ -25,9 +26,15 @@ function saveBlobToFile(blob, filename) {
     a.download = filename;
     a.click();
 }
+function onnew() {
+    // 保存文件
+    alert('new');
+}
 function onsave() {
     // 保存文件
     alert('save');
+}
+function onopen() {
 }
 function ondraw() {
     alert('draw');
