@@ -14,7 +14,7 @@ menu.Settings.bkColorHover = "#444444";
 if (menu.create()) {
     const item = menu.addItem("文件", "#", 'F', null);
     item.addSubItem("新建", "#", null);
-    item.addSubItem("保存", "#", onsave);
+    item.addSubItem("保存", "#", 'S', onsave);
     item.addSubItem("打开", "#", null);
     menu.addItem("绘制", "#", 'D', ondraw);
     menu.addItem("设置", "#", null, null);
@@ -27,7 +27,7 @@ function saveBlobToFile(blob, filename) {
 }
 function onsave() {
     // 保存文件
-
+    alert('save');
 }
 function ondraw() {
     alert('draw');

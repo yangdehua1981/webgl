@@ -119,14 +119,16 @@ export class MenuItem {
         a.href = href;
         return a;
     }
-    addSubItem(text, href, handler) {
+    addSubItem(text, href, shortcutkey, handler) {
         this.#createul();
         let li = this.#createli();
+        if (shortcutkey != null)
+            text += "   Shift+" + shortcutkey;
         let a = this.#creata(text, href);
         li.appendChild(a);
         this.ul.appendChild(li);
         this.handler = null;
-        return new MenuItem(this.ul.childElementCount - 1, li, null, handler, this.container);
+        return new MenuItem(this.ul.childElementCount - 1, li, shortcutkey, handler, this.container);
     }
 }
 //
