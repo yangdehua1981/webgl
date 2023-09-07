@@ -67,10 +67,14 @@ export class MenuItem {
         if (this.ul == null) {
             this.ul = document.createElement("ul");
             this.ul.className = "submenu";
-            if (this.container.direction == Menu.Dir.HORZ)
-                this.ul.style = "display:flex;align-items: center;padding:0px;margin:0px;list-style-type:none;position: absolute;top: 100%;left:0;display: none;border: 1px solid;border-radius: 3px;";
-            else if (this.container.direction == Menu.Dir.VERT)
-                this.ul.style = "padding:0px;margin:0px;list-style-type:none;position: absolute;top: 0;left:100%;display: none;border: 1px solid;border-radius: 3px;";
+            this.ul.style = "padding:0px;margin:0px;list-style-type:none;position:absolute;display:none;border:1px solid;border-radius:3px;";
+            if (this.container.direction == Menu.Dir.HORZ) {
+                this.ul.style.top = '100%';
+                this.ul.style.left = '0';
+            } else if (this.container.direction == Menu.Dir.VERT) {
+                this.ul.style.top = '0%';
+                this.ul.style.left = '100';
+            }
             this.ul.style.borderColor = this.container.Settings.borderColor;
             this.li.appendChild(this.ul);
         }
@@ -84,15 +88,13 @@ export class MenuItem {
         li.style.paddingRight = this.container.Settings.paddingH;
         li.style.paddingTop = this.container.Settings.paddingV;
         li.style.paddingBottom = this.container.Settings.paddingV;
-
-
         li.addEventListener('click', (event) => { this.#onitemclick(event); });
         return li;
     }
     #creata(text, href) {
         let a = document.createElement("a");
         a.innerText = text;
-        a.style = "padding:0px;text-decoration: none;text-align: center;";
+        a.style = "padding:0px;text-decoration:none;text-align:center;";
         a.href = href;
         return a;
     }
@@ -145,10 +147,9 @@ export class Menu {
     #createa(text, href) {
         let a = document.createElement("a");
         a.innerText = text;
+        a.style = "padding:0px;text-decoration:none;text-align:center;";
         if (this.direction == Menu.Dir.HORZ)
-            a.style = "display: block;padding: 0px;;text-decoration: none;text-align: center;";
-        else if (this.direction == Menu.Dir.VERT)
-            a.style = "padding: 0px;text-decoration: none;text-align: center;";
+            a.style.display = "display:block;";
         a.href = href;
         return a;
     }
