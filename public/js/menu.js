@@ -44,8 +44,12 @@ export class MenuItem {
     }
     #onkeydown(event) {
         if (this.shortcutkey != null) {
-            if (event.shiftKey && event.key === this.shortcutkey)
+            if (event.shiftKey && event.key === this.shortcutkey) {
+                this.alink.focus();
+                event.stopPropagation();
+                event.stopImmediatePropagation();
                 this.#onclick(event);
+            }
         }
     }
     #onclick(event) {
