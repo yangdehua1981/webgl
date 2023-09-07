@@ -87,6 +87,7 @@ export class MenuItem {
     }
     #createli() {
         let li = document.createElement("li");
+        li.className = "menu-item";
         li.style = "margin:0px;border-bottom: 1px solid;";
         li.style.borderColor = this.container.Settings.borderColor;
         li.style.width = this.container.Settings.subitemWidth;
@@ -134,6 +135,7 @@ export class Menu {
     }
     #createli() {
         let li = document.createElement("li");
+        li.className = "menu-item";
         li.style = "position:relative;margin:0px;";
         li.style.paddingLeft = this.Settings.paddingH;
         li.style.paddingRight = this.Settings.paddingH;
