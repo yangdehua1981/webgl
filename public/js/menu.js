@@ -5,9 +5,12 @@ export class MenuItem {
         this.ul = null;
         this.container = container;
         this.handler = handler;
-        if (li.firstElementChild.tagName.toLowerCase() === 'a') {
-            this.alink = li.firstElementChild;
-            li.firstElementChild.addEventListener('click', (event) => { this.#onclick(event); });
+        this.#init();
+    }
+    #init() {
+        if (this.li.firstElementChild.tagName.toLowerCase() === 'a') {
+            this.alink = this.li.firstElementChild;
+            this.li.firstElementChild.addEventListener('click', (event) => { this.#onclick(event); });
         }
         this.li.addEventListener('mouseenter', (event) => { this.#onmouseenter(event); });
         this.li.addEventListener('mouseleave', (event) => { this.#onmouseleave(event); });
@@ -25,9 +28,9 @@ export class MenuItem {
     #onmouseleave(event) {
         this.li.style.backgroundColor = this.container.Settings.bkColor;
         this.alink.style.textDecoration = "none";
-        if (this.container.curitem != null && this.ul != null) {
-            this.container.curitem.ul.style.display = "none";
-        }
+        // if (this.container.curitem != null && this.ul != null) {
+        //     this.container.curitem.ul.style.display = "none";
+        // }
     }
     #onclick(event) {
         if (this.container.curitem != this && this.container.curitem != null) {
@@ -60,7 +63,7 @@ export class MenuItem {
             this.container.curitem = null;
         }
     }
-    addSubItem(text, href, handler) {
+    #createul() {
         if (this.ul == null) {
             this.ul = document.createElement("ul");
             this.ul.className = "submenu";
@@ -71,19 +74,34 @@ export class MenuItem {
             this.ul.style.borderColor = this.container.Settings.borderColor;
             this.li.appendChild(this.ul);
         }
-
+    }
+    #createli() {
         let li = document.createElement("li");
+        li.style = "margin:0px;border-bottom: 1px solid;";
         li.style.borderColor = this.container.Settings.borderColor;
-        li.style = "padding:5px;margin:0px;border-bottom: 1px solid;";
-        li.style.width = '80px';
-        li.addEventListener('click', (event) => { this.#onitemclick(event); });
-        this.ul.appendChild(li);
+        li.style.width = this.container.Settings.subitemWidth;
+        li.style.paddingLeft = this.container.Settings.paddingH;
+        li.style.paddingRight = this.container.Settings.paddingH;
+        li.style.paddingTop = this.container.Settings.paddingV;
+        li.style.paddingBottom = this.container.Settings.paddingV;
 
+
+        li.addEventListener('click', (event) => { this.#onitemclick(event); });
+        return li;
+    }
+    #creata(text, href) {
         let a = document.createElement("a");
         a.innerText = text;
         a.style = "padding:0px;text-decoration: none;text-align: center;";
         a.href = href;
+        return a;
+    }
+    addSubItem(text, href, handler) {
+        this.#createul();
+        let li = this.#createli();
+        let a = this.#creata(text, href);
         li.appendChild(a);
+        this.ul.appendChild(li);
         this.handler = null;
         return new MenuItem(this.ul.childElementCount - 1, li, handler, this.container);
     }
@@ -102,7 +120,7 @@ export class Menu {
         borderColor: '#ccc',
         fontsize: '14px',
         itemWidth: '60px',
-        subitemWidth: '100px',
+        subitemWidth: '80px',
         paddingH: '3px',
         paddingV: '3px'
     }
