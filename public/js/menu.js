@@ -1,8 +1,9 @@
 export class MenuItem {
-    constructor(idx, li, handler, container) {
+    constructor(idx, li, shortcutkey, handler, container) {
         this.idx = idx;
         this.li = li;
         this.ul = null;
+        this.shortcutkey = shortcutkey;
         this.container = container;
         this.handler = handler;
         this.#init();
@@ -10,7 +11,10 @@ export class MenuItem {
     #init() {
         if (this.li.firstElementChild.tagName.toLowerCase() === 'a') {
             this.alink = this.li.firstElementChild;
-            this.li.firstElementChild.addEventListener('click', (event) => { this.#onclick(event); });
+            this.alink.addEventListener('click', (event) => { this.#onclick(event); });
+            if (this.shortcutkey != null) {
+                document.addEventListener('keydown', (event) => { this.#onkeydown(event); });
+            }
         }
         this.li.addEventListener('mouseenter', (event) => { this.#onmouseenter(event); });
         this.li.addEventListener('mouseleave', (event) => { this.#onmouseleave(event); });
@@ -36,6 +40,12 @@ export class MenuItem {
         astyle.fontWeight = "normal";
         if (this.container.curitem != null && this.ul != null) {
             this.container.curitem.ul.style.display = "none";
+        }
+    }
+    #onkeydown(event) {
+        if (this.shortcutkey != null) {
+            if (event.shiftKey && event.key === this.shortcutkey)
+                this.#onclick(event);
         }
     }
     #onclick(event) {
@@ -101,7 +111,7 @@ export class MenuItem {
     #creata(text, href) {
         let a = document.createElement("a");
         a.innerText = text;
-        a.style = "padding:0px;text-decoration:none;text-align:center;";
+        a.style = "padding:0px;text-decoration:none;text-align:center;outline:none;";
         a.href = href;
         return a;
     }
@@ -112,7 +122,7 @@ export class MenuItem {
         li.appendChild(a);
         this.ul.appendChild(li);
         this.handler = null;
-        return new MenuItem(this.ul.childElementCount - 1, li, handler, this.container);
+        return new MenuItem(this.ul.childElementCount - 1, li, null, handler, this.container);
     }
 }
 //
@@ -155,9 +165,9 @@ export class Menu {
     #createa(text, href) {
         let a = document.createElement("a");
         a.innerText = text;
-        a.style = "padding:0px;text-decoration:none;text-align:center;";
+        a.style = "padding:0px;text-decoration:none;text-align:center;outline:none;";
         if (this.direction == Menu.Dir.HORZ)
-            a.style.display = "display:block;";
+            a.style.display = "block";
         a.href = href;
         return a;
     }
@@ -179,14 +189,16 @@ export class Menu {
         this.menubar.appendChild(this.ul);
         return true;
     }
-    addItem(text, href, handler) {
+    addItem(text, href, shortcutkey, handler) {
         if (!this.ul)
             return false;
         let li = this.#createli();
+        if (shortcutkey != null)
+            text += "(" + shortcutkey + ")";
         let a = this.#createa(text, href);
         li.appendChild(a);
         this.ul.appendChild(li);
-        return new MenuItem(this.ul.childElementCount - 1, li, handler, this);
+        return new MenuItem(this.ul.childElementCount - 1, li, shortcutkey, handler, this);
     }
 
 }
