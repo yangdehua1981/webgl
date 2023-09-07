@@ -123,7 +123,7 @@ export class MenuItem {
     #creata(text, href) {
         let a = document.createElement("a");
         a.innerText = text;
-        a.style = "padding:0px;text-decoration:none;text-align:center;outline:none;";
+        a.style = "padding:0px;text-decoration:none;text-align:center;outline:none;caret-color:transparent;";
         a.href = href;
         return a;
     }
@@ -179,7 +179,7 @@ export class Menu {
     #createa(text, href) {
         let a = document.createElement("a");
         a.innerText = text;
-        a.style = "padding:0px;text-decoration:none;text-align:center;outline:none;";
+        a.style = "padding:0px;text-decoration:none;text-align:center;outline:none;caret-color:transparent;";
         if (this.direction == Menu.Dir.HORZ)
             a.style.display = "block";
         a.href = href;
