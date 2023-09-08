@@ -5,16 +5,22 @@ export class Tabpage {
         this.owner = owner;
     }
     #onmouseenter(event) {
-        this.tab.style.backgroundColor = "rgba(56,78,32,0.5)";
+        if (this.owner && (!this.owner.curtab || (this.owner.curtab && this.owner.curtab != this)))
+            this.tab.style.backgroundColor = "rgba(56,78,32,0.5)";
     }
     #onmouseleave(event) {
-        this.tab.style.backgroundColor = "";
+        if (this.owner && (!this.owner.curtab || (this.owner.curtab && this.owner.curtab != this)))
+            this.tab.style.backgroundColor = "";
     }
     #onmouseclick(event) {
-        if (this.owner && this.owner.curtab && this.owner.curtab != this)
-            this.owner.curtab.section.style.display = "none";
+        if (this.owner && this.owner.curtab && this.owner.curtab != this) {
+            let curtab = this.owner.curtab;
+            curtab.section.style.display = "none";
+            curtab.tab.style.backgroundColor = "";
+        }
         this.owner.curtab = this;
         this.section.style.display = "block";
+        this.tab.style.backgroundColor = "rgba(56,78,32,0.8)";
     }
     #createtab() {
         this.tab = document.createElement("li");
@@ -110,6 +116,11 @@ export class TabPanel {
         tabpage.Create();
         this.mainul.appendChild(tabpage.tab);
         this.content.appendChild(tabpage.section);
+        if (this.tabcount == 0) {
+            tabpage.section.style.display = "block";
+            tabpage.tab.style.backgroundColor = "rgba(56,78,32,0.8)";
+            this.curtab = tabpage;
+        }
         this.tabcount++;
         return tabpage;
     }
