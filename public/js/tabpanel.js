@@ -26,10 +26,26 @@ export class Tabpage {
         this.tab = document.createElement("li");
         let tab = this.tab;
         tab.className = "tab";
-        tab.innerHTML = this.title;
+
         tab.style.paddingLeft = "4px";
         tab.style.paddingRight = "4px";
-        tab.style.display = "inline-block";
+        tab.style.overflow = 'hidden';
+        tab.style.textOverflow = 'ellipsis';
+        tab.style.whiteSpace = 'nowrap';
+        tab.innerHTML = this.title;
+        if (this.owner.direct == TabPanel.Dir.TOP || this.owner.direct == TabPanel.Dir.BOTTOM) {
+
+            tab.style.display = "inline-block";
+            tab.style.width = "40px";
+        }
+        else if (this.owner.direct == TabPanel.Dir.LEFT || this.owner.direct == TabPanel.Dir.RIGHT) {
+            tab.style.width = "40px";
+            tab.style.height = '40px';
+            tab.style.display = "flex";
+            tab.style.alignItems = "center";
+            tab.style.justifyContent = "center";
+            //tab.innerHTML = `<span style="text-overflow:ellipsis;white-space:nowrap;">${this.title}</span>`;
+        }
         tab.style.textAlign = "center";
         tab.style.caretColor = "transparent";
         tab.addEventListener("mouseenter", this.#onmouseenter.bind(this));
@@ -54,8 +70,8 @@ export class Tabpage {
 }
 export class TabPanel {
     static Dir = {
-        UP: 'up',
-        DOWN: 'down',
+        TOP: 'top',
+        BOTTOM: 'bottom',
         LEFT: 'left',
         RIGHT: 'right'
     }
@@ -75,7 +91,15 @@ export class TabPanel {
         style.padding = "4px";
         style.margin = "0px";
         style.display = "flex";
-        style.flexDirection = "column";
+        if (this.direct === TabPanel.Dir.TOP) {
+            style.flexDirection = "column";
+        }
+        else if (this.direct === TabPanel.Dir.BOTTOM)
+            style.flexDirection = "column-reverse";
+        else if (this.direct === TabPanel.Dir.LEFT)
+            style.flexDirection = "row";
+        else if (this.direct === TabPanel.Dir.RIGHT)
+            style.flexDirection = "row-reverse";
         style.alignItems = "stretch";
     }
     #createmainul() {
@@ -84,10 +108,10 @@ export class TabPanel {
         this.mainul.style.padding = "0px";
         this.mainul.style.margin = "0px";
         if (this.direct === TabPanel.Dir.UP) {
-            this.mainul.style.display = "flex";
+            //this.mainul.style.display = "flex";
         }
         else if (this.direct === TabPanel.Dir.DOWN) {
-            this.mainul.style.display = "flex";
+            //this.mainul.style.display = "flex";
         }
     }
     #createcontent() {
