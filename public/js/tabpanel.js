@@ -5,12 +5,16 @@ export class Tabpage {
         this.owner = owner;
     }
     #onmouseenter(event) {
-        if (this.owner && (!this.owner.curtab || (this.owner.curtab && this.owner.curtab != this)))
-            this.tab.style.backgroundColor = "rgba(56,78,32,0.5)";
+        if (this.owner && (!this.owner.curtab || (this.owner.curtab && this.owner.curtab != this))) {
+            this.tab.style.backgroundColor = this.owner.Settings.tabbkColor;
+            this.tab.style.opacity = 0.8;
+        }
     }
     #onmouseleave(event) {
-        if (this.owner && (!this.owner.curtab || (this.owner.curtab && this.owner.curtab != this)))
+        if (this.owner && (!this.owner.curtab || (this.owner.curtab && this.owner.curtab != this))) {
             this.tab.style.backgroundColor = "";
+            this.tab.style.opacity = 1;
+        }
     }
     #onmouseclick(event) {
         if (this.owner && this.owner.curtab && this.owner.curtab != this) {
@@ -22,10 +26,14 @@ export class Tabpage {
             curstyle.borderLeft = '0px';
             curstyle.borderRight = '0px';
             curstyle.borderTop = '0px';
+            if (this.owner.direct == TabPanel.Dir.RIGHT)
+                curstyle.marginLeft = '0px';
+            curstyle.opacity = 1;
         }
         this.owner.curtab = this;
         this.section.style.display = "block";
         let style = this.tab.style;
+        style.opacity = 1;
         if (this.owner.direct == TabPanel.Dir.TOP)
             this.owner.topstyle(style);
         else if (this.owner.direct == TabPanel.Dir.BOTTOM)
@@ -34,38 +42,40 @@ export class Tabpage {
             this.owner.leftstyle(style);
         else if (this.owner.direct == TabPanel.Dir.RIGHT)
             this.owner.rightstyle(style);
-
     }
     #createtab() {
         this.tab = document.createElement("li");
         let tab = this.tab;
         tab.className = "tab";
         let style = tab.style;
-        style.overflow = 'hidden';
-        style.textOverflow = 'ellipsis';
-        style.whiteSpace = 'nowrap';
+        style.overflowWrap = 'break-word';
+        style.wordBreak = 'break-all';
         style.padding = '0px';
         style.margin = '0px';
+        style.color = this.owner.Settings.Color;
+        style.fontSize = "12px";
         tab.innerHTML = this.title;
         if (this.owner.direct == TabPanel.Dir.TOP || this.owner.direct == TabPanel.Dir.BOTTOM) {
             if (this.owner.direct == TabPanel.Dir.TOP) {
                 style.borderTopLeftRadius = "5px";
                 style.borderTopRightRadius = "5px";
+                style.paddingTop = "3px";
             }
             else if (this.owner.direct == TabPanel.Dir.BOTTOM) {
                 style.borderBottomLeftRadius = "5px";
                 style.borderBottomRightRadius = "5px";
+                style.paddingTop = "2px";
             }
+            style.minWidth = '60px';
+            style.height = this.owner.Settings.tabHeight;
             style.display = "inline-block";
-            style.width = "40px";
-            style.height = '20px';
         }
         else if (this.owner.direct == TabPanel.Dir.LEFT || this.owner.direct == TabPanel.Dir.RIGHT) {
-            style.width = "40px";
-            style.height = '40px';
             style.display = "flex";
             style.alignItems = "center";
             style.justifyContent = "center";
+            style.width = this.owner.Settings.tabWidth;
+            style.minHeight = '40px';
             if (this.owner.direct == TabPanel.Dir.LEFT) {
                 style.borderTopLeftRadius = "5px";
                 style.borderBottomLeftRadius = "5px";
@@ -90,7 +100,7 @@ export class Tabpage {
         style.top = '0';
         style.bottom = '0';
         style.display = "none";
-        style.backgroundColor = "#ddeeff";
+        style.backgroundColor = this.owner.Settings.tabbkColor;
         sec.innerHTML = `${this.index}`;
     }
     Create() {
@@ -106,9 +116,12 @@ export class TabPanel {
         RIGHT: 'right'
     }
     Settings = {
+        bkColor: "rgba(255,255,255,0)",
         tabbkColor: '#31a6e7',
         tabBorderColor: '#ccc',
         Color: '#ffffff',
+        tabWidth: '40px',
+        tabHeight: '20px',
     }
     constructor(parentid, dir) {
         this.parentid = parentid;
@@ -120,15 +133,14 @@ export class TabPanel {
         this.maindiv = document.createElement("div");
         this.maindiv.className = "tab-panel";
         let style = this.maindiv.style;
-        style.backgroundColor = "#cceedd";
         style.width = "100%";
         style.height = "100%";
         style.padding = "4px";
         style.margin = "0px";
         style.display = "flex";
-        if (this.direct === TabPanel.Dir.TOP) {
+        style.boxSizing = "border-box";
+        if (this.direct === TabPanel.Dir.TOP)
             style.flexDirection = "column";
-        }
         else if (this.direct === TabPanel.Dir.BOTTOM)
             style.flexDirection = "column-reverse";
         else if (this.direct === TabPanel.Dir.LEFT)
@@ -143,24 +155,29 @@ export class TabPanel {
         style.listStyleType = "none";
         style.padding = "0px";
         style.margin = "0px";
-
+        style.boxSizing = "border-box";
+        style.backgroudColor = this.Settings.bkColor;
         if (this.direct === TabPanel.Dir.TOP) {
+            style.paddingLeft = "10px";
             style.display = "flex";
             style.borderBottom = `1px solid ${this.Settings.tabBorderColor}`;
-            style.height = '20px';
+            style.height = this.Settings.tabHeight;
         }
         else if (this.direct === TabPanel.Dir.BOTTOM) {
+            style.paddingLeft = "10px";
             style.borderTop = `1px solid ${this.Settings.tabBorderColor}`;
             style.display = "flex";
-            style.height = '20px';
+            style.height = this.Settings.tabHeight;
         }
         else if (this.direct === TabPanel.Dir.LEFT) {
+            style.paddingTop = "10px";
             style.borderRight = `1px solid ${this.Settings.tabBorderColor}`;
-            style.width = '40px';
+            style.width = this.Settings.tabWidth;
         }
         else if (this.direct === TabPanel.Dir.RIGHT) {
+            style.paddingTop = "10px";
             style.borderLeft = `1px solid ${this.Settings.tabBorderColor}`;
-            style.width = '40px';
+            style.width = this.Settings.tabWidth;
         }
     }
     #createcontent() {
@@ -169,7 +186,6 @@ export class TabPanel {
         let style = this.content.style;
         style.margin = "0px";
         style.height = "100%";
-        style.backgroundColor = "#FFffff";
         if (this.direct === TabPanel.Dir.TOP) {
             style.borderLeft = `1px solid ${this.Settings.tabBorderColor}`;
             style.borderRight = `1px solid ${this.Settings.tabBorderColor}`;
@@ -204,6 +220,8 @@ export class TabPanel {
     }
     bottomstyle(style) {
         style.backgroundColor = this.Settings.tabbkColor;
+
+        style.marginTop = "-1px";
         style.borderTop = `1px solid ${this.Settings.tabbkColor}`;
         style.borderLeft = `1px solid ${this.Settings.tabBorderColor}`;
         style.borderRight = `1px solid ${this.Settings.tabBorderColor}`;

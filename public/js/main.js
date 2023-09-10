@@ -1,4 +1,5 @@
 import { Menu, MenuItem } from "/js/menu.js";
+import { TabPanel } from "/js/tabpanel.js";
 import { } from "/js/FileSaver.js";
 document.addEventListener('keydown', function (event) {
     // 检测组合键 Ctrl + Shift + A  event.ctrlKey && 
@@ -39,3 +40,11 @@ function onopen() {
 function ondraw() {
     alert('draw');
 }
+
+const tabPanel = new TabPanel("left-panel", TabPanel.Dir.LEFT);
+tabPanel.Settings.bkColor = "#3c3c3c";
+tabPanel.Settings.tabbkColor = "#1e1e1e";
+tabPanel.Settings.tabWidth = "40px";
+tabPanel.Create();
+tabPanel.AddTabPage('', '图元');
+tabPanel.AddTabPage('', '我的方案');
