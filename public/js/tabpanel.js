@@ -26,6 +26,7 @@ export class Tabpage {
             curstyle.borderLeft = '0px';
             curstyle.borderRight = '0px';
             curstyle.borderTop = '0px';
+            curstyle.margin = '0px';
             if (this.owner.direct == TabPanel.Dir.RIGHT)
                 curstyle.marginLeft = '0px';
             curstyle.opacity = 1;
@@ -59,22 +60,21 @@ export class Tabpage {
             if (this.owner.direct == TabPanel.Dir.TOP) {
                 style.borderTopLeftRadius = "5px";
                 style.borderTopRightRadius = "5px";
-                style.paddingTop = "3px";
             }
             else if (this.owner.direct == TabPanel.Dir.BOTTOM) {
                 style.borderBottomLeftRadius = "5px";
                 style.borderBottomRightRadius = "5px";
-                style.paddingTop = "2px";
             }
             style.minWidth = '60px';
-            style.height = this.owner.Settings.tabHeight;
+            style.height = `${this.owner.mainul.clientHeight}px`; //this.owner.Settings.tabHeight;
+            style.lineHeight = style.height;
             style.display = "inline-block";
         }
         else if (this.owner.direct == TabPanel.Dir.LEFT || this.owner.direct == TabPanel.Dir.RIGHT) {
             style.display = "flex";
             style.alignItems = "center";
             style.justifyContent = "center";
-            style.width = this.owner.Settings.tabWidth;
+            style.width = `${this.owner.mainul.clientWidth}px`;;//this.owner.Settings.tabWidth;
             style.minHeight = '40px';
             if (this.owner.direct == TabPanel.Dir.LEFT) {
                 style.borderTopLeftRadius = "5px";
