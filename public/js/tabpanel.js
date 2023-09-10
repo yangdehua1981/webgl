@@ -44,6 +44,8 @@ export class Tabpage {
         style.overflow = 'hidden';
         style.textOverflow = 'ellipsis';
         style.whiteSpace = 'nowrap';
+        style.padding = '0px';
+        style.margin = '0px';
         tab.innerHTML = this.title;
         if (this.owner.direct == TabPanel.Dir.TOP || this.owner.direct == TabPanel.Dir.BOTTOM) {
             if (this.owner.direct == TabPanel.Dir.TOP) {
@@ -211,7 +213,8 @@ export class TabPanel {
     }
     rightstyle(style) {
         style.backgroundColor = "rgba(56,78,32,1)";
-        style.borderLeft = '1px solid rgba(56,78,32,1)';
+        style.marginLeft = "-1px";
+        style.borderLeft = '2px solid rgba(56,78,32,1)';
         style.borderRight = '1px solid #000000';
         style.borderTop = '1px solid #000000';
         style.borderBottom = '1px solid #000000';
