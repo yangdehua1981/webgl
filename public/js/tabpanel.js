@@ -27,9 +27,9 @@ export class Tabpage {
             curstyle.borderRight = '0px';
             curstyle.borderTop = '0px';
             curstyle.margin = '0px';
-            if (this.owner.direct == TabPanel.Dir.RIGHT || this.owner.direct == TabPanel.Dir.LEFT)
+            if (this.owner.direct == TabPanel.Location.RIGHT || this.owner.direct == TabPanel.Location.LEFT)
                 curstyle.marginBottom = '5px';
-            else if (this.owner.direct == TabPanel.Dir.TOP || this.owner.direct == TabPanel.Dir.BOTTOM)
+            else if (this.owner.direct == TabPanel.Location.TOP || this.owner.direct == TabPanel.Location.BOTTOM)
                 curstyle.marginRight = '5px';
             curstyle.opacity = 1;
         }
@@ -37,13 +37,13 @@ export class Tabpage {
         this.section.style.display = "block";
         let style = this.tab.style;
         style.opacity = 1;
-        if (this.owner.direct == TabPanel.Dir.TOP)
+        if (this.owner.direct == TabPanel.Location.TOP)
             this.owner.topstyle(style);
-        else if (this.owner.direct == TabPanel.Dir.BOTTOM)
+        else if (this.owner.direct == TabPanel.Location.BOTTOM)
             this.owner.bottomstyle(style);
-        else if (this.owner.direct == TabPanel.Dir.LEFT)
+        else if (this.owner.direct == TabPanel.Location.LEFT)
             this.owner.leftstyle(style);
-        else if (this.owner.direct == TabPanel.Dir.RIGHT)
+        else if (this.owner.direct == TabPanel.Location.RIGHT)
             this.owner.rightstyle(style);
     }
     #createtab() {
@@ -58,12 +58,12 @@ export class Tabpage {
         style.color = this.owner.Settings.Color;
         style.fontSize = "12px";
         tab.innerHTML = this.title;
-        if (this.owner.direct == TabPanel.Dir.TOP || this.owner.direct == TabPanel.Dir.BOTTOM) {
-            if (this.owner.direct == TabPanel.Dir.TOP) {
+        if (this.owner.direct == TabPanel.Location.TOP || this.owner.direct == TabPanel.Location.BOTTOM) {
+            if (this.owner.direct == TabPanel.Location.TOP) {
                 style.borderTopLeftRadius = "5px";
                 style.borderTopRightRadius = "5px";
             }
-            else if (this.owner.direct == TabPanel.Dir.BOTTOM) {
+            else if (this.owner.direct == TabPanel.Location.BOTTOM) {
                 style.borderBottomLeftRadius = "5px";
                 style.borderBottomRightRadius = "5px";
             }
@@ -73,18 +73,18 @@ export class Tabpage {
             style.marginRight = "5px";
             style.display = "inline-block";
         }
-        else if (this.owner.direct == TabPanel.Dir.LEFT || this.owner.direct == TabPanel.Dir.RIGHT) {
+        else if (this.owner.direct == TabPanel.Location.LEFT || this.owner.direct == TabPanel.Location.RIGHT) {
             style.display = "flex";
             style.alignItems = "center";
             style.justifyContent = "center";
             style.width = `${this.owner.mainul.clientWidth}px`;;//this.owner.Settings.tabWidth;
             style.minHeight = '40px';
             style.marginBottom = "5px";
-            if (this.owner.direct == TabPanel.Dir.LEFT) {
+            if (this.owner.direct == TabPanel.Location.LEFT) {
                 style.borderTopLeftRadius = "5px";
                 style.borderBottomLeftRadius = "5px";
             }
-            else if (this.owner.direct == TabPanel.Dir.RIGHT) {
+            else if (this.owner.direct == TabPanel.Location.RIGHT) {
                 style.borderTopRightRadius = "5px";
                 style.borderBottomRightRadius = "5px";
             }
@@ -113,7 +113,7 @@ export class Tabpage {
     }
 }
 export class TabPanel {
-    static Dir = {
+    static Location = {
         TOP: 'top',
         BOTTOM: 'bottom',
         LEFT: 'left',
@@ -143,13 +143,13 @@ export class TabPanel {
         style.margin = "0px";
         style.display = "flex";
         style.boxSizing = "border-box";
-        if (this.direct === TabPanel.Dir.TOP)
+        if (this.direct === TabPanel.Location.TOP)
             style.flexDirection = "column";
-        else if (this.direct === TabPanel.Dir.BOTTOM)
+        else if (this.direct === TabPanel.Location.BOTTOM)
             style.flexDirection = "column-reverse";
-        else if (this.direct === TabPanel.Dir.LEFT)
+        else if (this.direct === TabPanel.Location.LEFT)
             style.flexDirection = "row";
-        else if (this.direct === TabPanel.Dir.RIGHT)
+        else if (this.direct === TabPanel.Location.RIGHT)
             style.flexDirection = "row-reverse";
         style.alignItems = "stretch";
     }
@@ -161,24 +161,24 @@ export class TabPanel {
         style.margin = "0px";
         style.boxSizing = "border-box";
         style.backgroudColor = this.Settings.bkColor;
-        if (this.direct === TabPanel.Dir.TOP) {
+        if (this.direct === TabPanel.Location.TOP) {
             style.paddingLeft = "10px";
             style.display = "flex";
             style.borderBottom = `1px solid ${this.Settings.tabBorderColor}`;
             style.height = this.Settings.tabHeight;
         }
-        else if (this.direct === TabPanel.Dir.BOTTOM) {
+        else if (this.direct === TabPanel.Location.BOTTOM) {
             style.paddingLeft = "10px";
             style.borderTop = `1px solid ${this.Settings.tabBorderColor}`;
             style.display = "flex";
             style.height = this.Settings.tabHeight;
         }
-        else if (this.direct === TabPanel.Dir.LEFT) {
+        else if (this.direct === TabPanel.Location.LEFT) {
             style.paddingTop = "10px";
             style.borderRight = `1px solid ${this.Settings.tabBorderColor}`;
             style.width = this.Settings.tabWidth;
         }
-        else if (this.direct === TabPanel.Dir.RIGHT) {
+        else if (this.direct === TabPanel.Location.RIGHT) {
             style.paddingTop = "10px";
             style.borderLeft = `1px solid ${this.Settings.tabBorderColor}`;
             style.width = this.Settings.tabWidth;
@@ -190,22 +190,22 @@ export class TabPanel {
         let style = this.content.style;
         style.margin = "0px";
         style.height = "100%";
-        if (this.direct === TabPanel.Dir.TOP) {
+        if (this.direct === TabPanel.Location.TOP) {
             style.borderLeft = `1px solid ${this.Settings.tabBorderColor}`;
             style.borderRight = `1px solid ${this.Settings.tabBorderColor}`;
             style.borderBottom = `1px solid ${this.Settings.tabBorderColor}`;
         }
-        else if (this.direct === TabPanel.Dir.BOTTOM) {
+        else if (this.direct === TabPanel.Location.BOTTOM) {
             style.borderLeft = `1px solid ${this.Settings.tabBorderColor}`;
             style.borderRight = `1px solid ${this.Settings.tabBorderColor}`;
             style.borderTop = `1px solid ${this.Settings.tabBorderColor}`;
         }
-        else if (this.direct === TabPanel.Dir.LEFT) {
+        else if (this.direct === TabPanel.Location.LEFT) {
             style.borderRight = `1px solid ${this.Settings.tabBorderColor}`;
             style.borderBottom = `1px solid ${this.Settings.tabBorderColor}`;
             style.borderTop = `1px solid ${this.Settings.tabBorderColor}`;
         }
-        else if (this.direct === TabPanel.Dir.RIGHT) {
+        else if (this.direct === TabPanel.Location.RIGHT) {
             style.borderLeft = `1px solid ${this.Settings.tabBorderColor}`;
             style.borderBottom = `1px solid ${this.Settings.tabBorderColor}`;
             style.borderTop = `1px solid ${this.Settings.tabBorderColor}`;
@@ -263,13 +263,13 @@ export class TabPanel {
         if (this.tabcount == 0) {
             tabpage.section.style.display = "block";
             let style = tabpage.tab.style;
-            if (this.direct === TabPanel.Dir.TOP)
+            if (this.direct === TabPanel.Location.TOP)
                 this.topstyle(style);
-            else if (this.direct === TabPanel.Dir.BOTTOM)
+            else if (this.direct === TabPanel.Location.BOTTOM)
                 this.bottomstyle(style);
-            else if (this.direct === TabPanel.Dir.LEFT)
+            else if (this.direct === TabPanel.Location.LEFT)
                 this.leftstyle(style);
-            else if (this.direct === TabPanel.Dir.RIGHT)
+            else if (this.direct === TabPanel.Location.RIGHT)
                 this.rightstyle(style);
             this.curtab = tabpage;
         }

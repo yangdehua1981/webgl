@@ -41,7 +41,7 @@ function ondraw() {
     alert('draw');
 }
 
-const tabPanel = new TabPanel("left-panel", TabPanel.Dir.RIGHT);
+const tabPanel = new TabPanel("left-panel", TabPanel.Location.BOTTOM);
 tabPanel.Settings.bkColor = "#3c3c3c";
 tabPanel.Settings.tabbkColor = "#1e1e1e";
 tabPanel.Settings.tabWidth = "40px";
