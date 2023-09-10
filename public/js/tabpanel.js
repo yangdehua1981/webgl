@@ -105,6 +105,11 @@ export class TabPanel {
         LEFT: 'left',
         RIGHT: 'right'
     }
+    Settings = {
+        tabbkColor: '#31a6e7',
+        tabBorderColor: '#ccc',
+        Color: '#ffffff',
+    }
     constructor(parentid, dir) {
         this.parentid = parentid;
         this.direct = dir;
@@ -141,20 +146,20 @@ export class TabPanel {
 
         if (this.direct === TabPanel.Dir.TOP) {
             style.display = "flex";
-            style.borderBottom = "1px solid #000000";
+            style.borderBottom = `1px solid ${this.Settings.tabBorderColor}`;
             style.height = '20px';
         }
         else if (this.direct === TabPanel.Dir.BOTTOM) {
-            style.borderTop = "1px solid #000000";
+            style.borderTop = `1px solid ${this.Settings.tabBorderColor}`;
             style.display = "flex";
             style.height = '20px';
         }
         else if (this.direct === TabPanel.Dir.LEFT) {
-            style.borderRight = "1px solid #000000";
+            style.borderRight = `1px solid ${this.Settings.tabBorderColor}`;
             style.width = '40px';
         }
         else if (this.direct === TabPanel.Dir.RIGHT) {
-            style.borderLeft = "1px solid #000000";
+            style.borderLeft = `1px solid ${this.Settings.tabBorderColor}`;
             style.width = '40px';
         }
     }
@@ -166,24 +171,24 @@ export class TabPanel {
         style.height = "100%";
         style.backgroundColor = "#FFffff";
         if (this.direct === TabPanel.Dir.TOP) {
-            style.borderLeft = "1px solid #000000";
-            style.borderRight = "1px solid #000000";
-            style.borderBottom = "1px solid #000000";
+            style.borderLeft = `1px solid ${this.Settings.tabBorderColor}`;
+            style.borderRight = `1px solid ${this.Settings.tabBorderColor}`;
+            style.borderBottom = `1px solid ${this.Settings.tabBorderColor}`;
         }
         else if (this.direct === TabPanel.Dir.BOTTOM) {
-            style.borderLeft = "1px solid #000000";
-            style.borderRight = "1px solid #000000";
-            style.borderTop = "1px solid #000000";
+            style.borderLeft = `1px solid ${this.Settings.tabBorderColor}`;
+            style.borderRight = `1px solid ${this.Settings.tabBorderColor}`;
+            style.borderTop = `1px solid ${this.Settings.tabBorderColor}`;
         }
         else if (this.direct === TabPanel.Dir.LEFT) {
-            style.borderRight = "1px solid #000000";
-            style.borderBottom = "1px solid #000000";
-            style.borderTop = "1px solid #000000";
+            style.borderRight = `1px solid ${this.Settings.tabBorderColor}`;
+            style.borderBottom = `1px solid ${this.Settings.tabBorderColor}`;
+            style.borderTop = `1px solid ${this.Settings.tabBorderColor}`;
         }
         else if (this.direct === TabPanel.Dir.RIGHT) {
-            style.borderLeft = "1px solid #000000";
-            style.borderBottom = "1px solid #000000";
-            style.borderTop = "1px solid #000000";
+            style.borderLeft = `1px solid ${this.Settings.tabBorderColor}`;
+            style.borderBottom = `1px solid ${this.Settings.tabBorderColor}`;
+            style.borderTop = `1px solid ${this.Settings.tabBorderColor}`;
         }
 
         style.flexGrow = "1";
@@ -191,33 +196,33 @@ export class TabPanel {
         style.position = 'relative';
     }
     topstyle(style) {
-        style.backgroundColor = "rgba(56,78,32,1)";
-        style.borderBottom = '1px solid rgba(56,78,32,1)';
-        style.borderLeft = '1px solid #000000';
-        style.borderRight = '1px solid #000000';
-        style.borderTop = '1px solid #000000';
+        style.backgroundColor = this.Settings.tabbkColor;
+        style.borderBottom = `1px solid ${this.Settings.tabbkColor}`;
+        style.borderLeft = `1px solid ${this.Settings.tabBorderColor}`;
+        style.borderRight = `1px solid ${this.Settings.tabBorderColor}`;
+        style.borderTop = `1px solid ${this.Settings.tabBorderColor}`;
     }
     bottomstyle(style) {
-        style.backgroundColor = "rgba(56,78,32,1)";
-        style.borderTop = '1px solid rgba(56,78,32,1)';
-        style.borderLeft = '1px solid #000000';
-        style.borderRight = '1px solid #000000';
-        style.borderBottom = '1px solid #000000';
+        style.backgroundColor = this.Settings.tabbkColor;
+        style.borderTop = `1px solid ${this.Settings.tabbkColor}`;
+        style.borderLeft = `1px solid ${this.Settings.tabBorderColor}`;
+        style.borderRight = `1px solid ${this.Settings.tabBorderColor}`;
+        style.borderBottom = `1px solid ${this.Settings.tabBorderColor}`;
     }
     leftstyle(style) {
-        style.backgroundColor = "rgba(56,78,32,1)";
-        style.borderRight = '1px solid rgba(56,78,32,1)';
-        style.borderLeft = '1px solid #000000';
-        style.borderTop = '1px solid #000000';
-        style.borderBottom = '1px solid #000000';
+        style.backgroundColor = this.Settings.tabbkColor;
+        style.borderRight = `1px solid ${this.Settings.tabbkColor}`;
+        style.borderLeft = `1px solid ${this.Settings.tabBorderColor}`;
+        style.borderTop = `1px solid ${this.Settings.tabBorderColor}`;
+        style.borderBottom = `1px solid ${this.Settings.tabBorderColor}`;
     }
     rightstyle(style) {
-        style.backgroundColor = "rgba(56,78,32,1)";
+        style.backgroundColor = this.Settings.tabbkColor;
         style.marginLeft = "-1px";
-        style.borderLeft = '2px solid rgba(56,78,32,1)';
-        style.borderRight = '1px solid #000000';
-        style.borderTop = '1px solid #000000';
-        style.borderBottom = '1px solid #000000';
+        style.borderLeft = `1px solid ${this.Settings.tabbkColor}`;
+        style.borderRight = `1px solid ${this.Settings.tabBorderColor}`;
+        style.borderTop = `1px solid ${this.Settings.tabBorderColor}`;
+        style.borderBottom = `1px solid ${this.Settings.tabBorderColor}`;
     }
     Create() {
         let container = document.getElementById(this.parentid);
