@@ -7,13 +7,17 @@ export class ListItem {
         this.owner = owner;
     }
     #onmouseenter(event) {
-        this.div.style.border = "1px solid #ccc";
+        this.div.style.border = "1px solid #0000ff";
     }
     #onmouseleave(event) {
-        this.div.style.border = "0px";
+        if (this.owner.curItem != this)
+            this.div.style.border = "0px";
     }
     #onmouseclick(event) {
-
+        if (this.owner.curItem && this.owner.curItem != this)
+            this.owner.curItem.div.style.border = "0px";
+        this.div.style.border = "1px solid #0000ff";
+        this.owner.curItem = this;
     }
     #creatediv() {
         if (this.div == null) {
@@ -70,6 +74,7 @@ export class ListBox {
     constructor() {
         this.container = null;
         this.#Items = [];
+        this.curItem = null;
     }
     Create() {
         if (this.container == null) {
