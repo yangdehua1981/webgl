@@ -47,6 +47,7 @@ export class ListItem {
             this.parag.style.marginTop = "0px";
             this.parag.style.color = this.owner.Setting.color;
             this.parag.style.height = "20px";
+            this.parag.style.caretColor = "transparent";
         }
     }
     Create() {
