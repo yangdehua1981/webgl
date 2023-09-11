@@ -1,6 +1,7 @@
 import { Menu, MenuItem } from "/js/menu.js";
 import { TabPanel } from "/js/tabpanel.js";
 import { } from "/js/FileSaver.js";
+import { ListBox } from "/js/listbox.js";
 document.addEventListener('keydown', function (event) {
     // 检测组合键 Ctrl + Shift + A  event.ctrlKey && 
     if (event.shiftKey && event.key === 'F') {
@@ -46,5 +47,16 @@ tabPanel.Settings.bkColor = "#3c3c3c";
 tabPanel.Settings.tabbkColor = "#1e1e1e";
 tabPanel.Settings.tabWidth = "40px";
 tabPanel.Create();
-tabPanel.AddTabPage('', '图元');
-tabPanel.AddTabPage('', '我的方案');
+let tab = tabPanel.AddTab('', '图元');
+let listbox = new ListBox();
+if (listbox.Create()) {
+    listbox.AddItem({ text: 'item1', img: '/img/bk.jpg' });
+    listbox.AddItem({ text: 'item2', img: '/img/bk.jpg' });
+    listbox.AddItem({ text: 'item3', img: '/img/bk.jpg' });
+    listbox.AddItem({ text: 'item4', img: '/img/bk.jpg' });
+    listbox.AddItem({ text: 'item5', img: '/img/bk.jpg' });
+    listbox.AddItem({ text: 'item6', img: '/img/bk.jpg' });
+    listbox.AddItem({ text: 'item7', img: '/img/bk.jpg' });
+    tab.BindPage(listbox);
+}
+tabPanel.AddTab('', '我的方案');
