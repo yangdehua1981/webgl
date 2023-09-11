@@ -104,12 +104,22 @@ export class Tabpage {
         style.top = '0';
         style.bottom = '0';
         style.display = "none";
+        style.padding = "2px";
+        style.boxSizing = "border-box";
         style.backgroundColor = this.owner.Settings.tabbkColor;
-        sec.innerHTML = `${this.index}`;
+
     }
     Create() {
         this.#createtab();
         this.#createpage();
+    }
+    BindPage(page) {
+        if (this.section == null)
+            return;
+        this.section.appendChild(page.container);
+        page.container.style.width = '100%';
+        page.container.style.height = '100%';
+        page.container.style.overflow = 'auto';
     }
 }
 export class TabPanel {
@@ -255,7 +265,7 @@ export class TabPanel {
         this.#createcontent();
         this.maindiv.appendChild(this.content);
     }
-    AddTabPage(id, name) {
+    AddTab(id, name) {
         let tabpage = new Tabpage(name, this.tabcount, this);
         tabpage.Create();
         this.mainul.appendChild(tabpage.tab);
