@@ -81,6 +81,7 @@ export class ListBox {
             this.container = document.createElement("div");
             this.container.style.display = "flex";
             this.container.style.flexWrap = "wrap";
+            this.container.style.alignContent = "flex-start";
         }
         return true;
     }
