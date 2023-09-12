@@ -1,6 +1,7 @@
+import { getRandomColor } from "/js/color.js";
 export class TreeNode {
     #dataitem;
-    constructor(item, owner, tree, ischild = false) {
+    constructor(item, ico, owner, tree, ischild = false) {
         this.#dataitem = item;
         this.owner = owner;
         this.li = null;
@@ -11,24 +12,27 @@ export class TreeNode {
         this.bextend = false;
         this.selected = false;
         this.tree = tree;
+        this.ico = ico;
     }
     #mouseenter(event) {
-        this.li.style.backgroundColor = '#f500f5';
         if (this.ischild) {
-            if (!this.owner.selected)
+            if (!this.owner.selected) {
                 this.owner.li.style.backgroundColor = '';
+            }
         }
+        this.li.style.backgroundColor = this.tree.Settings.itemHoverColor;
     }
     #mouseleave(event) {
-        if (!this.selected)
+        if (!this.selected) {
             this.li.style.backgroundColor = '';
+        }
         event.stopPropagation();
     }
     #mouseclick(event) {
         event.preventDefault();
         event.stopPropagation();
         if (this.tree.curNode != this) {
-            this.li.style.backgroundColor = '#f500f5';
+            this.li.style.backgroundColor = this.tree.Settings.itemBkColor;
             this.selected = true;
             if (this.ischild) {
                 this.owner.li.style.backgroundColor = '';
@@ -57,6 +61,9 @@ export class TreeNode {
             return;
         const symbol = document.createElement('span');
         symbol.style.marginRight = '5px';
+        symbol.style.fontSize = '18px';
+        symbol.style.color = 'red';
+        symbol.style.visibility = 'hidden';
         symbol.textContent = '+';
         this.symbol = symbol;
         this.li.insertBefore(symbol, this.li.firstChild);
@@ -72,6 +79,21 @@ export class TreeNode {
         li.style.cursor = "default";
         li.style.caretColor = 'transparent';
         li.style.userSelect = 'none';
+        li.style.paddingLeft = '0px';
+        li.style.marginBottom = '5px';
+
+        li.style.textAlign = 'center';
+        li.style.color = this.tree.Settings.Color;
+        li.style.textAlign = 'left';
+        if (this.ico) {
+            let img = document.createElement('img');
+            img.src = this.ico;
+            img.style.width = '16px';
+            img.style.height = '16px';
+            img.style.marginRight = '5px';
+            this.li.insertBefore(img, this.li.firstChild);
+        }
+        this.#createCollapsed();
         li.addEventListener('mouseenter', this.#mouseenter.bind(this));
         li.addEventListener('mouseout', this.#mouseleave.bind(this));
         li.addEventListener('click', this.#mouseclick.bind(this));
@@ -79,22 +101,24 @@ export class TreeNode {
         li.addEventListener("mouseover", this.#mouseenter.bind(this));
         return true;
     }
-    addSubNode(item) {
+    addSubNode(item, ico = null) {
         if (this.ul == null) {
             var childul = document.createElement("ul");
             childul.style.listStyleType = "none";
             childul.style.display = "none";
             childul.style.left = "0px";
             childul.style.top = "100%";
-            childul.style.backgroundColor = "#ffffff";
+            childul.style.borderLeft = "1px dashed";
+            childul.style.borderLeftColor = getRandomColor();
+            childul.style.backgroundColor = this.tree.Settings.bkColor;
             this.li.appendChild(childul);
             this.ul = childul;
         }
 
-        let childnode = new TreeNode(item, this, this.tree, true);
+        let childnode = new TreeNode(item, ico, this, this.tree, true);
         if (childnode.create()) {
             this.ul.appendChild(childnode.li);
-            this.#createCollapsed();
+            this.symbol.style.visibility = "visible";
             this.haschildren = true;
             return childnode;
         }
@@ -102,41 +126,39 @@ export class TreeNode {
     }
 }
 export class Treeview {
+    Settings = {
+        Color: '#ffffff',
+        bkColor: '#000000',
+        itemBkColor: '#04395E',
+        itemHoverColor: 'rgba(4,57,94,0.5)',
+    }
     constructor(parentid) {
         this.parentid = parentid;
-        this.ul = null;
+        this.container = null;
         this.curNode = null;
     }
-    #onclick(event) {
-        // if (event.treeNode != undefined && event.treeNode != null) {
-        //     if (this.curNode != event.treeNode && this.curNode != null) {
-        //         this.curNode.selected = false;
-        //         this.curNode.li.style.backgroundColor = "";
-        //     }
-        //     this.curNode = event.treeNode;
-        // }
-    }
+
     #createul() {
-        if (this.parentid != "") {
+        var rootul = document.createElement("ul");
+        rootul.className = "treeview";
+        rootul.style.listStyleType = "none";
+        rootul.style.margin = "0px";
+        rootul.style.padding = "5px";
+        rootul.style.boxSizing = "border-box";
+        rootul.style.backgroundColor = this.Settings.bkColor;
+        this.container = rootul;
+        if (this.parentid) {
             var parent = document.getElementById(this.parentid);
-            var rootul = document.createElement("ul");
-            rootul.className = "treeview";
-            rootul.style.listStyleType = "none";
-            rootul.style.margin = "0px";
-            rootul.style.padding = "0px";
-            rootul.style.backgroundColor = "#ffffff";
-            rootul.addEventListener("click", this.#onclick.bind(this));
             parent.appendChild(rootul);
-            this.ul = rootul;
         }
     }
     create() {
         this.#createul();
     }
-    addNode(item) {
-        let node = new TreeNode(item, this, this);
+    addNode(item, ico = null) {
+        let node = new TreeNode(item, ico, this, this);
         if (node.create()) {
-            this.ul.appendChild(node.li);
+            this.container.appendChild(node.li);
             return node;
         }
         return null;

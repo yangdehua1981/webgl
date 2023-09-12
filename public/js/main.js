@@ -2,6 +2,7 @@ import { Menu, MenuItem } from "/js/menu.js";
 import { TabPanel } from "/js/tabpanel.js";
 import { } from "/js/FileSaver.js";
 import { ListBox } from "/js/listbox.js";
+import { Treeview, TreeNode } from "/js/Treeview.js";
 document.addEventListener('keydown', function (event) {
     // 检测组合键 Ctrl + Shift + A  event.ctrlKey && 
     if (event.shiftKey && event.key === 'F') {
@@ -59,4 +60,23 @@ if (listbox.Create()) {
     listbox.AddItem({ text: 'item7', img: '/img/bk.jpg' });
     tab.BindPage(listbox);
 }
-tabPanel.AddTab('', '我的方案');
+
+let tree = new Treeview(null);
+tree.Settings.bkColor = "#1e1e1e";
+tree.create();
+
+let node = tree.addNode({ text: "2023/9/1" }, '/img/rl.png');
+node.addSubNode({ text: "方案1" }, '/img/sc.png');
+node.addSubNode({ text: "方案2" }, '/img/sc.png');
+node.addSubNode({ text: "方案3" }, '/img/sc.png');
+node = tree.addNode({ text: "2023/9/2" }, '/img/rl.png');
+node.addSubNode({ text: "方案11" }, '/img/sc.png');
+node.addSubNode({ text: "方案21" }, '/img/sc.png');
+let subnode = node.addSubNode({ text: "方案31" }, '/img/sc.png');
+subnode.addSubNode({ text: "方案31" }, '/img/sc.png');
+subnode.addSubNode({ text: "方案31" }, '/img/sc.png');
+node.addSubNode({ text: "方案13" }, '/img/sc.png');
+node.addSubNode({ text: "方案24" }, '/img/sc.png');
+node.addSubNode({ text: "方案35" }, '/img/sc.png');
+tab = tabPanel.AddTab('', '我的方案');
+tab.BindPage(tree);
