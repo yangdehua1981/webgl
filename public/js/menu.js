@@ -103,6 +103,7 @@ export class MenuItem {
                 this.ul.style.top = '0%';
                 this.ul.style.left = '100';
             }
+            this.ul.style.zIndex = '999999';
             this.ul.style.borderColor = this.container.Settings.borderColor;
             this.li.appendChild(this.ul);
         }
