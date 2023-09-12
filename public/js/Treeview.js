@@ -137,7 +137,15 @@ export class Treeview {
         this.container = null;
         this.curNode = null;
     }
-
+    #onclick(event) {
+        if (event.target == this.container) {
+            if (this.curNode) {
+                this.curNode.li.style.backgroundColor = "";
+                this.curNode.selected = false;
+            }
+            this.curNode = null;
+        }
+    }
     #createul() {
         var rootul = document.createElement("ul");
         rootul.className = "treeview";
@@ -146,6 +154,7 @@ export class Treeview {
         rootul.style.padding = "5px";
         rootul.style.boxSizing = "border-box";
         rootul.style.backgroundColor = this.Settings.bkColor;
+        rootul.addEventListener("click", this.#onclick.bind(this));
         this.container = rootul;
         if (this.parentid) {
             var parent = document.getElementById(this.parentid);
