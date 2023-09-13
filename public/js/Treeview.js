@@ -56,6 +56,12 @@ export class TreeNode {
         event.preventDefault();
         event.stopPropagation();
     }
+    #onsymbolclick(event) {
+        this.#mousedbclick(event);
+    }
+    #onsymbolover(event) {
+        this.symbol.style.cursor = 'pointer';
+    }
     #createCollapsed() {
         if (this.symbol)
             return;
@@ -66,6 +72,8 @@ export class TreeNode {
         symbol.style.color = 'red';
         symbol.style.visibility = 'hidden';
         symbol.textContent = '+';
+        symbol.addEventListener('click', this.#onsymbolclick.bind(this));
+        symbol.addEventListener('mouseover', this.#onsymbolover.bind(this));
         this.symbol = symbol;
         this.li.insertBefore(symbol, this.li.firstChild);
     }
