@@ -27,6 +27,7 @@ export class Tabpage {
             curstyle.borderRight = '0px';
             curstyle.borderTop = '0px';
             curstyle.margin = '0px';
+            curstyle.color = this.owner.Settings.Color;
             if (this.owner.direct == TabPanel.Location.RIGHT || this.owner.direct == TabPanel.Location.LEFT)
                 curstyle.marginBottom = '5px';
             else if (this.owner.direct == TabPanel.Location.TOP || this.owner.direct == TabPanel.Location.BOTTOM)
@@ -37,6 +38,7 @@ export class Tabpage {
         this.section.style.display = "block";
         let style = this.tab.style;
         style.opacity = 1;
+        style.color = this.owner.Settings.curtabColor;
         if (this.owner.direct == TabPanel.Location.TOP)
             this.owner.topstyle(style);
         else if (this.owner.direct == TabPanel.Location.BOTTOM)
@@ -136,6 +138,7 @@ export class TabPanel {
         Color: '#ffffff',
         tabWidth: '40px',
         tabHeight: '20px',
+        curtabColor: '#fff200'
     }
     constructor(parentid, dir) {
         this.parentid = parentid;
@@ -273,6 +276,7 @@ export class TabPanel {
         if (this.tabcount == 0) {
             tabpage.section.style.display = "block";
             let style = tabpage.tab.style;
+            style.color = this.Settings.curtabColor;
             if (this.direct === TabPanel.Location.TOP)
                 this.topstyle(style);
             else if (this.direct === TabPanel.Location.BOTTOM)
