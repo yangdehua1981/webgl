@@ -80,3 +80,21 @@ node.addSubNode({ text: "方案24" }, '/img/sc.png');
 node.addSubNode({ text: "方案35" }, '/img/sc.png');
 tab = tabPanel.AddTab('', '我的方案');
 tab.BindPage(tree);
+
+onsizechange();
+window.onresize = onsizechange;
+let cranvas = document.getElementById("drawer");
+cranvas.addEventListener("resize", onsizechange);
+
+function onsizechange(event) {
+    let drawer = document.getElementById("drawer");
+    let rightpanel = document.getElementById("right-panel");
+    if (
+        drawer.clientWidth < rightpanel.clientWidth &&
+        drawer.clientHeight < rightpanel.clientHeight
+    ) {
+        rightpanel.style.justifyContent = "center";
+        rightpanel.style.display = "flex";
+        rightpanel.style.alignItems = "center";
+    }
+}
