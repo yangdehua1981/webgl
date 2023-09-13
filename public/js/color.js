@@ -27,9 +27,12 @@ function rgbaToHex(rgbaColor) {
 
 export function getRandomColor() {
     // 生成三个随机的 0 到 255 之间的整数
-    var r = Math.floor(Math.random() * 256);
-    var g = Math.floor(Math.random() * 256);
-    var b = Math.floor(Math.random() * 256);
+    var min = 10;
+    var max = 255;
+
+    var r = Math.floor(Math.random() * (max - min + 1)) + min;
+    var g = Math.floor(Math.random() * (max - min + 1)) + min;
+    var b = Math.floor(Math.random() * (max - min + 1)) + min;
 
     // 将 RGB 值转换为十六进制表示
     var color = '#' + r.toString(16) + g.toString(16) + b.toString(16);
