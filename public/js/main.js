@@ -61,7 +61,7 @@ if (listbox.Create()) {
     tab.BindPage(listbox);
 }
 
-let tree = new Treeview(null);
+let tree = new Treeview(null, '/img/msc.png', '我的方案');
 tree.Settings.bkColor = "#1e1e1e";
 tree.create();
 

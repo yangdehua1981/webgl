@@ -60,7 +60,8 @@ export class TreeNode {
         if (this.symbol)
             return;
         const symbol = document.createElement('span');
-        symbol.style.marginRight = '5px';
+        symbol.style.marginRight = '10px';
+        symbol.style.paddingLeft = '4px';
         symbol.style.fontSize = '18px';
         symbol.style.color = 'red';
         symbol.style.visibility = 'hidden';
@@ -132,8 +133,10 @@ export class Treeview {
         itemBkColor: '#04395E',
         itemHoverColor: 'rgba(4,57,94,0.5)',
     }
-    constructor(parentid) {
+    constructor(parentid, ico, text) {
         this.parentid = parentid;
+        this.rootico = ico;
+        this.roottext = text;
         this.container = null;
         this.curNode = null;
     }
@@ -146,6 +149,29 @@ export class Treeview {
             this.curNode = null;
         }
     }
+    #createroot() {
+        if (this.rootico && this.roottext) {
+            let span = document.createElement("span");
+            //span.style.verticalAlign = "middle";
+            span.style.textAlign = "center";
+            span.style.color = this.Settings.Color;
+            let img = document.createElement("img");
+            img.src = this.rootico;
+            img.style.width = "16px";
+            img.style.height = "16px";
+            img.style.paddingRight = "8px";
+            span.appendChild(img);
+            span.appendChild(document.createTextNode(this.roottext));
+            let li = document.createElement("li");
+            li.style.margin = "0px";
+            li.style.paddingBottom = "5px";
+            li.style.textAlign = 'left';
+            li.style.caretColor = "transparent";
+            li.appendChild(span);
+            return li;
+        }
+        return null;
+    }
     #createul() {
         var rootul = document.createElement("ul");
         rootul.className = "treeview";
@@ -156,6 +182,10 @@ export class Treeview {
         rootul.style.backgroundColor = this.Settings.bkColor;
         rootul.addEventListener("click", this.#onclick.bind(this));
         this.container = rootul;
+        let rootli = this.#createroot();
+        if (rootli) {
+            rootul.appendChild(rootli);
+        }
         if (this.parentid) {
             var parent = document.getElementById(this.parentid);
             parent.appendChild(rootul);
