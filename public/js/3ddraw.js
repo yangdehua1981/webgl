@@ -11,12 +11,10 @@ canvas.addEventListener("resize", () => {
     alert("r");
 });
 
-// const cameraPosition = [0, 0, 0]; // 相机位置 (x, y, z)
-// const target = [0, 0, -1.0]; // 目标点 (x, y, z)
-// const up = [0, 1, 0]; // 上方向 (x, y, z)
 
-const cameraPosition = [0, 0, 300]; // 相机位置 (x, y, z)
-const target = [0, 0, -90.0]; // 目标点 (x, y, z)
+
+const cameraPosition = [0, 0, 1000]; // 相机位置 (x, y, z)
+const target = [0, 0, 0.0]; // 目标点 (x, y, z)
 const up = [0, 1, 0]; // 上方向 (x, y, z)
 
 const viewMatrix = mat4.create(); // 创建一个4x4的单位矩阵
@@ -34,26 +32,13 @@ mat4.perspective(
 );
 board.viewMatrix = viewMatrix;
 board.projMatrix = projMatrix;
-// alert(canvas.width);
-// alert(canvas.clientWidth);
-const modelViewMatrix = mat4.create();
 
-// Now move the drawing position a bit to where we want to
-// start drawing the square.
-
-mat4.translate(
-    modelViewMatrix, // destination matrix
-    modelViewMatrix, // matrix to translate
-    [0.0, 0.0, -8.0]
-); // amount to translate
-//*u_viewMatrix
 const vertexShaderSource = `
           attribute vec3 a_position;
           uniform mat4 u_ProjMaterix;
           uniform mat4 u_viewMatrix;
-          uniform mat4 u_ModelViewMatrix;
           void main() {
-              gl_Position = vec4(a_position, 1.0);
+              gl_Position = u_ProjMaterix*u_viewMatrix*vec4(a_position, 1.0);
           }
       `;
 
@@ -118,9 +103,6 @@ const positionAttributeLocation = gl.getAttribLocation(
     "a_position"
 );
 const colorUniformLocation = gl.getUniformLocation(program, "u_color");
-// gl.uniform4f(colorUniformLocation, 0.0, 0.0, 0.0, 1.0); // 设置线段颜色为白色
-
-// 创建缓冲区对象
 
 // 渲染函数
 function render() {
@@ -160,12 +142,6 @@ function render() {
     gl.uniformMatrix4fv(viewMatrixLocation, false, viewMatrix);
     const u_ProjMaterix = gl.getUniformLocation(program, "u_ProjMaterix");
     gl.uniformMatrix4fv(u_ProjMaterix, false, projMatrix);
-
-    const u_modelViewMatrix = gl.getUniformLocation(
-        program,
-        "u_ModelViewMatrix"
-    );
-    gl.uniformMatrix4fv(u_modelViewMatrix, false, modelViewMatrix);
 
     gl.uniform4f(colorUniformLocation, 0.0, 0.0, 0.0, 1.0); // 设置线段颜色为白色
 

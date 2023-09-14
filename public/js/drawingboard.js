@@ -13,35 +13,27 @@ export class Drawingboard {
         if (!this.isDrawing) return;
 
         const rect = event.target.getBoundingClientRect();
-        const x = event.clientX - rect.left;
-        const y = event.clientY - rect.top;
+        const x = event.clientX - rect.left - 30;
+        const y = event.clientY - rect.top - 30;
 
-        //const ndcX = (x - rect.width / 2) / (rect.width / 2);// (x / rect.width/2) * 2 - 1;
-        //const ndcY = (rect.height / 2 - y) / (rect.height / 2);//1 - (y / rect.height / 2) * 2;
-        const normalizedX = (2.0 * x / rect.width) - 1.0;
-        const normalizedY = 1.0 - (2.0 * y / rect.height);
-        // const movc4 = vec4.create();
-        // vec4.set(movc4, x - rect.width / 2, rect.height / 2 - y, 0.0, 1.0);
-        // const invmat41 = mat4.create();
-        // mat4.invert(invmat41, this.projMatrix);
-        // const invmat42 = mat4.create();
-        // mat4.invert(invmat42, this.viewMatrix);
-
-        // let worldPoint = vec4.create();
-
-        // vec4.transformMat4(worldPoint, movc4, invmat41);
-        // vec4.transformMat4(worldPoint, movc4, invmat42);
-        // let mat41 = mat4.create();
-        // mat4.multiply(mat41, invmat41, invmat42);
-
+        const normalizedX = (2.0 * x / (rect.width - 60)) - 1.0;
+        const normalizedY = 1.0 - (2.0 * y / (rect.height - 60));
         const movc4 = vec4.create();
-        vec4.set(movc4, x, y, 0.0, 1.0);
-        let mat41 = mat4.create();
-        mat4.multiply(mat41, this.projMatrix, this.viewMatrix);
-        const result = vec4.create();
-        vec4.transformMat4(result, movc4, mat41);
-        //vec4.transformMat4(result, result, this.projMatrix);
-        this.positions.push(result[0], result[1], result[2]); // 存储顶点坐标
+        vec4.set(movc4, normalizedX, normalizedY, -1.0, 1.0);
+
+        const invmat41 = mat4.create();
+        mat4.invert(invmat41, this.projMatrix);
+
+        const movc41 = vec4.create();
+        vec4.transformMat4(movc41, movc4, invmat41);
+        vec4.scale(movc41, movc41, movc41[3]); // 归一化
+
+        const invmat42 = mat4.create();
+        mat4.invert(invmat42, this.viewMatrix);
+        vec4.transformMat4(movc41, movc41, invmat42);
+        vec4.scale(movc41, movc41, movc41[3]);
+        console.log(movc41);
+        this.positions.push(movc41[0], movc41[1], 0); // 存储顶点坐标
 
     }
     constructor(canvas, bdraw) {
