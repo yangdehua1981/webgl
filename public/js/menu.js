@@ -12,8 +12,8 @@ export class MenuItem {
         if (this.li.firstElementChild.tagName.toLowerCase() === 'a') {
             this.alink = this.li.firstElementChild;
             this.alink.addEventListener('click', (event) => { this.#onclick(event); });
-            this.alink.addEventListener('focus', (event) => { this.#onfocus(event); });
-            this.alink.addEventListener('blur', (event) => { this.#onblur(event); });
+            //this.alink.addEventListener('focus', (event) => { this.#onfocus(event); });
+            //this.alink.addEventListener('blur', (event) => { this.#onblur(event); });
             if (this.shortcutkey != null) {
                 document.addEventListener('keydown', (event) => { this.#onkeydown(event); });
             }
