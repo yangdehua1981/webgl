@@ -16,18 +16,25 @@ menu.Settings.borderColor = "#8a8888";
 menu.Settings.bkColorHover = "#444444";
 menu.Settings.subitemWidth = '120px';
 if (menu.create()) {
-    const item = menu.addItem("文件", "#", 'F', null);
+    let item = menu.addItem("文件", "#", 'F', null);
     item.addSubItem("新建", "#", 'N', onnew);
     item.addSubItem("保存", "#", 'S', onsave);
     item.addSubItem("打开", "#", 'O', onopen);
     menu.addItem("绘制", "#", 'D', ondraw);
-    menu.addItem("设置", "#", null, null);
+    let item1 = menu.addItem("设置", "#", null, null);
+    item1.addSubItem("重置画布大小", "#", null, onsetcanvassize);
 }
 function saveBlobToFile(blob, filename) {
     var a = document.createElement('a');
     a.href = window.URL.createObjectURL(blob);
     a.download = filename;
     a.click();
+}
+function onsetcanvassize() {
+
+    cranvas.width = 800;
+    cranvas.height = 600;
+    onsizechange();
 }
 function onnew() {
     // 保存文件
@@ -85,7 +92,16 @@ onsizechange();
 window.onresize = onsizechange;
 let cranvas = document.getElementById("drawer");
 cranvas.addEventListener("resize", onsizechange);
+cranvas.addEventListener("mousemove", onmousemove);
+let sspan = document.getElementById("size-2d");
+sspan.innerHTML = `画布大小(宽:${cranvas.width},高:${cranvas.height})`;
 
+function onmousemove(event) {
+
+    let statusbar = document.getElementById("coordinate-2d");
+    const rect = cranvas.getBoundingClientRect();
+    statusbar.innerText = "画布坐标(X:" + (event.clientX - rect.left - 30) + " Y:" + (event.clientY - rect.top - 30) + ")";
+}
 function onsizechange(event) {
     let drawer = document.getElementById("drawer");
     let rightpanel = document.getElementById("right-panel");

@@ -32,7 +32,7 @@ export class Drawingboard {
         mat4.invert(invmat42, this.viewMatrix);
         vec4.transformMat4(movc41, movc41, invmat42);
         vec4.scale(movc41, movc41, movc41[3]);
-        console.log(movc41);
+        //console.log(movc41);
         this.positions.push(movc41[0], movc41[1], 0); // 存储顶点坐标
 
     }
