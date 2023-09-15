@@ -50,6 +50,7 @@ export class TreeNode {
             let style = this.ul.style;
             this.bextend = !this.bextend;
             style.display = this.bextend ? 'block' : 'none';
+            this.li.style.paddingBottom = this.bextend ? '0px' : '2px';
             style.paddingLeft = this.bextend ? `${this.symbol.offsetWidth}px` : '0px';
             this.symbol.textContent = this.bextend ? '-' : '+';
         }
@@ -89,7 +90,9 @@ export class TreeNode {
         li.style.caretColor = 'transparent';
         li.style.userSelect = 'none';
         li.style.paddingLeft = '0px';
-        li.style.marginBottom = '5px';
+        //li.style.marginBottom = '5px';
+        li.style.paddingBottom = '2px';
+        li.style.paddingTop = '2px';
 
         li.style.textAlign = 'center';
         li.style.color = this.tree.Settings.Color;
@@ -120,6 +123,7 @@ export class TreeNode {
             childul.style.borderLeft = "1px dashed";
             childul.style.borderLeftColor = getRandomColor();
             childul.style.backgroundColor = this.tree.Settings.bkColor;
+            //childul.style.marginBottom = '8px';
             this.li.appendChild(childul);
             this.ul = childul;
         }
