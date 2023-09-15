@@ -19,8 +19,10 @@ export class TreeNode {
         if (this.ischild) {
             if (!this.owner.selected) {
                 this.owner.li.style.backgroundColor = '';
-                if (this.owner.owner instanceof TreeNode)
-                    this.owner.owner.li.style.backgroundColor = '';
+                if (this.owner.owner instanceof TreeNode) {
+                    if (!this.owner.owner.selected)
+                        this.owner.owner.li.style.backgroundColor = '';
+                }
             }
         }
         if (!this.selected)
@@ -119,7 +121,7 @@ export class TreeNode {
     }
     addSubNode(item, ico = null) {
         if (this.ul == null) {
-            var childul = document.createElement("ul");
+            let childul = document.createElement("ul");
             childul.style.listStyleType = "none";
             childul.style.display = "none";
             childul.style.left = "0px";
@@ -127,7 +129,6 @@ export class TreeNode {
             childul.style.borderLeft = "1px dashed";
             childul.style.borderLeftColor = getRandomColor();
             childul.style.backgroundColor = this.tree.Settings.bkColor;
-            //childul.style.marginBottom = '8px';
             this.li.appendChild(childul);
             this.ul = childul;
         }
@@ -155,6 +156,7 @@ export class Treeview {
         this.roottext = text;
         this.container = null;
         this.curNode = null;
+        this.rootnode = null;
     }
     #onclick(event) {
         if (event.target == this.container) {
@@ -166,27 +168,15 @@ export class Treeview {
         }
     }
     #createroot() {
-        if (this.rootico && this.roottext) {
-            let span = document.createElement("span");
-            //span.style.verticalAlign = "middle";
-            span.style.textAlign = "center";
-            span.style.color = this.Settings.Color;
-            let img = document.createElement("img");
-            img.src = this.rootico;
-            img.style.width = "16px";
-            img.style.height = "16px";
-            img.style.paddingRight = "8px";
-            span.appendChild(img);
-            span.appendChild(document.createTextNode(this.roottext));
-            let li = document.createElement("li");
-            li.style.margin = "0px";
-            li.style.paddingBottom = "5px";
-            li.style.textAlign = 'left';
-            li.style.caretColor = "transparent";
-            li.appendChild(span);
-            return li;
+        if (this.rootnode)
+            return ture;
+        let rootnode = new TreeNode({ text: this.roottext }, this.rootico, this, this);
+        if (rootnode.create()) {
+            this.container.appendChild(rootnode.li);
+            this.rootnode = rootnode;
+            return true;
         }
-        return null;
+        return false;
     }
     #createul() {
         var rootul = document.createElement("ul");
@@ -198,10 +188,8 @@ export class Treeview {
         rootul.style.backgroundColor = this.Settings.bkColor;
         rootul.addEventListener("click", this.#onclick.bind(this));
         this.container = rootul;
-        let rootli = this.#createroot();
-        if (rootli) {
-            rootul.appendChild(rootli);
-        }
+        this.#createroot();
+
         if (this.parentid) {
             var parent = document.getElementById(this.parentid);
             parent.appendChild(rootul);
@@ -211,11 +199,9 @@ export class Treeview {
         this.#createul();
     }
     addNode(item, ico = null) {
-        let node = new TreeNode(item, ico, this, this);
-        if (node.create()) {
-            this.container.appendChild(node.li);
-            return node;
-        }
-        return null;
+        if (this.rootnode)
+            return this.rootnode.addSubNode(item, ico);
+        else
+            return null;
     }
 }
