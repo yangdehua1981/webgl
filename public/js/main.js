@@ -97,4 +97,9 @@ function onsizechange(event) {
         rightpanel.style.display = "flex";
         rightpanel.style.alignItems = "center";
     }
+    else {
+        rightpanel.style.justifyContent = "";
+        rightpanel.style.display = "";
+        rightpanel.style.alignItems = "";
+    }
 }
