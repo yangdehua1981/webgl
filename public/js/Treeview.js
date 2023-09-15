@@ -15,12 +15,16 @@ export class TreeNode {
         this.ico = ico;
     }
     #mouseenter(event) {
+        event.stopPropagation();
         if (this.ischild) {
             if (!this.owner.selected) {
                 this.owner.li.style.backgroundColor = '';
+                if (this.owner.owner instanceof TreeNode)
+                    this.owner.owner.li.style.backgroundColor = '';
             }
         }
-        this.li.style.backgroundColor = this.tree.Settings.itemHoverColor;
+        if (!this.selected)
+            this.li.style.backgroundColor = this.tree.Settings.itemHoverColor;
     }
     #mouseleave(event) {
         if (!this.selected) {
@@ -143,7 +147,7 @@ export class Treeview {
         Color: '#ffffff',
         bkColor: '#000000',
         itemBkColor: '#04395E',
-        itemHoverColor: 'rgba(4,57,94,0.5)',
+        itemHoverColor: 'rgba(4,57,94,0.3)',
     }
     constructor(parentid, ico, text) {
         this.parentid = parentid;
