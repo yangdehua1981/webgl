@@ -34,18 +34,18 @@ export class MenuItem {
     }
     #onmouseenter(event) {
         this.li.style.backgroundColor = this.container.Settings.overbkColor;
-        const astyle = this.alink.style;
-        astyle.textDecoration = "underline";
-        astyle.textDecorationColor = this.container.Settings.txtDecorationColor;
-        astyle.borderBottom = "1px solid " + this.container.Settings.txtDecorationColor;
-        astyle.fontWeight = "bold";
+        // const astyle = this.alink.style;
+        // astyle.textDecoration = "underline";
+        // astyle.textDecorationColor = this.container.Settings.txtDecorationColor;
+        // astyle.borderBottom = "1px solid " + this.container.Settings.txtDecorationColor;
+        // astyle.fontWeight = "bold";
     }
     #onmouseleave(event) {
         this.li.style.backgroundColor = this.container.Settings.bkColor;
-        const astyle = this.alink.style;
-        astyle.textDecoration = "none";
-        astyle.borderBottom = "none";
-        astyle.fontWeight = "normal";
+        // const astyle = this.alink.style;
+        // astyle.textDecoration = "none";
+        // astyle.borderBottom = "none";
+        // astyle.fontWeight = "normal";
         if (this.container.curitem != null && this.ul != null) {
             this.container.curitem.ul.style.display = "none";
         }
