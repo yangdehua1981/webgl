@@ -104,7 +104,7 @@ function onmousemove(event) {
 
     let statusbar = document.getElementById("coordinate-2d");
     const rect = cranvas.getBoundingClientRect();
-    statusbar.innerText = "画布坐标(X:" + (event.clientX - rect.left - 30) + " Y:" + (event.clientY - rect.top - 30) + ")";
+    statusbar.innerText = "画布坐标(X:" + Math.round(event.clientX - rect.left - 30) + " Y:" + Math.round(event.clientY - rect.top - 30) + ")";
 }
 function onsizechange(event) {
     let drawer = document.getElementById("drawer");
