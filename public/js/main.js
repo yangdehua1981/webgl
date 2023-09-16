@@ -3,6 +3,10 @@ import { TabPanel } from "/js/tabpanel.js";
 import { } from "/js/FileSaver.js";
 import { ListBox } from "/js/listbox.js";
 import { Treeview, TreeNode } from "/js/Treeview.js";
+
+var cranvas = document.getElementById("drawer");
+var sspan = document.getElementById("size-2d");
+
 document.addEventListener('keydown', function (event) {
     // 检测组合键 Ctrl + Shift + A  event.ctrlKey && 
     if (event.shiftKey && event.key === 'F') {
@@ -90,10 +94,10 @@ tab.BindPage(tree);
 
 onsizechange();
 window.onresize = onsizechange;
-let cranvas = document.getElementById("drawer");
+
 cranvas.addEventListener("resize", onsizechange);
 cranvas.addEventListener("mousemove", onmousemove);
-let sspan = document.getElementById("size-2d");
+
 sspan.innerHTML = `画布大小(宽:${cranvas.width},高:${cranvas.height})`;
 
 function onmousemove(event) {
@@ -118,4 +122,5 @@ function onsizechange(event) {
         rightpanel.style.display = "";
         rightpanel.style.alignItems = "";
     }
+    sspan.innerHTML = `画布大小(宽:${cranvas.width},高:${cranvas.height})`;
 }
